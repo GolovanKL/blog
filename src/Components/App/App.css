@@ -1,0 +1,8 @@
+
+.wrapper {
+  min-height: 100%;;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: #E5E5E5;
+}
