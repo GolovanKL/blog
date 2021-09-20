@@ -6,3 +6,8 @@
   flex-direction: column;
   background-color: #E5E5E5;
 }
+
+main {
+  max-width: 938px;
+  margin: 0 auto;
+}

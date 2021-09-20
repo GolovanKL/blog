@@ -1,18 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import uniqid from 'uniqid';
 
 import Post from "../Post/Post";
 
 import './Posts.css'
 
-const Posts = () => {
+const Posts = ({posts}) => {
+  Posts.propTypes ={
+    posts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }
+
+
   return (
     <div className="posts__container">
       <div className="posts">
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
-        <Post/>
+        {posts.map(post => <Post key={uniqid()} post={post} />)}
       </div>
     </div>
   );

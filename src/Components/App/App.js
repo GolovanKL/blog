@@ -8,20 +8,25 @@ import './App.css';
 function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [posts, setPosts] = useState([]);
+  const [postsTotal, setPostsTotal] = useState(0);
 
   useEffect(() => {
     setLoading(true);
     fetch('https://conduit.productionready.io/api/articles?limit=5')
       .then(res => res.json()).then(res => {
       setLoading(false);
-      console.log(res)
+      setPosts(res.articles);
+      setPostsTotal(res.articlesCount);
     })
       .catch(err => {
         setLoading(false);
-        setError(err);
-        console.log(err.message)
+        setError('Не удалось загрузить данные');
+        console.log(err);
       })
   }, [])
+
+  console.log(posts, postsTotal);
 
   return (
     <div className='wrapper'>
@@ -30,7 +35,7 @@ function App() {
       {!loading && error}
       {!loading && !error && (
       <main className="main">
-        <Posts/>
+        <Posts posts={posts}/>
       </main>)}
     </div>
   );

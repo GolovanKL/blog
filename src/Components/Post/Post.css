@@ -11,14 +11,17 @@
 }
 
 .post__title {
-    max-width: 210px;
+    /*max-width: 210px;*/
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
+    align-items: baseline;
 }
 
 .post__title h5 {
+    display: block;
     font-size: 20px;
     line-height: 140%;
+    margin: 0;
 }
 
 .post__likes {
@@ -29,6 +32,7 @@
     opacity: 0.75;
     font-size: 12px;
     line-height: 183%;
+    margin-left: 15px;
 }
 
 .post__likes img {
@@ -45,18 +49,29 @@
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    min-width: 140px;
+    min-width: fit-content;
+}
+
+.user__text {
+    padding-right: 10px;
 }
 
 .user__name {
     font-size: 18px;
     line-height: 156%;
+    width: max-content;
 }
 
 .user__date {
     font-size: 12px;
     line-height: 183%;
     opacity: 0.5;
+}
+
+.user__avatar img {
+    max-width: 46px;
+    max-height: 46px;
+    border-radius: 50%;
 }
 
 .tags {
