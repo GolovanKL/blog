@@ -1,42 +1,31 @@
-import React, { useEffect, useState } from "react";
-import {Spin} from 'antd';
+import React from "react";
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import Header from "../Header/Header";
 import Posts from "../Posts/Posts";
-import './App.css';
+import PostBody from "../../PostBody/PostBody";
+import SignIn from "../SignIn/SignIn";
+
+
+import './App.scss';
 
 function App() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [posts, setPosts] = useState([]);
-  const [postsTotal, setPostsTotal] = useState(0);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch('https://conduit.productionready.io/api/articles?limit=5')
-      .then(res => res.json()).then(res => {
-      setLoading(false);
-      setPosts(res.articles);
-      setPostsTotal(res.articlesCount);
-    })
-      .catch(err => {
-        setLoading(false);
-        setError('Не удалось загрузить данные');
-        console.log(err);
-      })
-  }, [])
-
-  console.log(posts, postsTotal);
 
   return (
     <div className='wrapper'>
-      <Header/>
-      {loading && <Spin size='large' /> }
-      {!loading && error}
-      {!loading && !error && (
-      <main className="main">
-        <Posts posts={posts}/>
-      </main>)}
+      <BrowserRouter>
+        <Header/>
+        <main className="main">
+          <Route path="/" exact component={SignIn}/>
+          <Route path="/posts/" exact component={Posts}/>
+          <Route path="/posts/:slug"
+                 render={({match}) => {
+                   const {slug} = match.params;
+                   return <PostBody slug={slug}/>
+                 }}
+          />
+        </main>
+      </BrowserRouter>
     </div>
   );
 }

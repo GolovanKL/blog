@@ -5,15 +5,20 @@
     padding: 15px 15px 24px;
     align-items: flex-start;
     background-color: white;
+    border: 2px solid #fff;
     border-radius: 5px;
     filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.15));
     margin-bottom: 26px;
+    transition: all 0.3s ease 0s;
+}
+
+.post:hover {
+    cursor: pointer;
+    border: 2px solid #1890FF;
 }
 
 .post__title {
-    /*max-width: 210px;*/
     display: flex;
-    /*justify-content: space-between;*/
     align-items: baseline;
 }
 
@@ -22,10 +27,10 @@
     font-size: 20px;
     line-height: 140%;
     margin: 0;
+    color: #1890FF;
 }
 
 .post__likes {
-    min-width: 35px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -37,6 +42,7 @@
 
 .post__likes img {
     max-height: 15px;
+    margin-right: 5px;
 }
 
 

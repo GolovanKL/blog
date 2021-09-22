@@ -1,29 +1,23 @@
 import React from 'react';
+import {withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns'
 import uniqid from 'uniqid';
+import axios from 'axios';
+import { format } from 'date-fns'
 import heart from '../../assets/heart.svg'
 
 import './Post.css'
 
-const Post = ({post}) => {
-  Post.propTypes = {
-    post: PropTypes.shape({
-      author: PropTypes.object,
-      body: PropTypes.string,
-      createdAt: PropTypes.string,
-      favoritesCount: PropTypes.number,
-      title: PropTypes.string,
-      tagList: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired,
-  }
+const Post = ({post, history}) => {
 
-  const {title, author, body, createdAt, favoritesCount, tagList} = post;
+  const {title, author, body, createdAt, favoritesCount, tagList, slug} = post;
 
   const date = format(new Date(createdAt), 'MMMM d, y');
 
+  const onPostClick = () => history.push(`/posts/${slug}`);
+
   return (
-    <div className="post">
+    <div className="post" onClick={onPostClick}>
       <article className="post__article">
         <div className="post__title">
           <h5>{title}</h5>
@@ -52,4 +46,16 @@ const Post = ({post}) => {
   );
 };
 
-export default Post;
+export default withRouter(Post);
+
+Post.propTypes = {
+  post: PropTypes.shape({
+    author: PropTypes.object,
+    body: PropTypes.string,
+    createdAt: PropTypes.string,
+    favoritesCount: PropTypes.number,
+    title: PropTypes.string,
+    tagList: PropTypes.arrayOf(PropTypes.string),
+    slug: PropTypes.string,
+  }).isRequired,
+}
