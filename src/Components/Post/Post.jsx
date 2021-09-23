@@ -9,7 +9,7 @@ import './Post.scss'
 
 const Post = ({post, history}) => {
 
-  const {title, author, body, createdAt, favoritesCount, tagList, slug} = post;
+  const {title, author, description, createdAt, favoritesCount, tagList, slug} = post;
 
   const date = format(new Date(createdAt), 'MMMM d, y');
 
@@ -29,7 +29,7 @@ const Post = ({post, history}) => {
           {tagList.map(tag => <div key={uniqid()} className="tag">{tag}</div>)}
         </div>
         <div className="article__text">
-          <p>{body}</p>
+          <p>{description}</p>
         </div>
       </article>
       <div className="post__user user">

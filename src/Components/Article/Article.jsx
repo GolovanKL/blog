@@ -20,7 +20,7 @@ const Article = ({slug}) => {
       .catch(() => setLoading(false))
   }, [slug])
 
-  const {title, body, favoritesCount, createdAt, author, tagList} = article;
+  const {title, description, body, favoritesCount, createdAt, author, tagList} = article;
 
   const date = (createdAt && format(new Date(createdAt), 'MMMM d, y'));
 
@@ -41,7 +41,7 @@ const Article = ({slug}) => {
             {tagList.map(tag => <div key={uniqid()} className="tag">{tag}</div>)}
           </div>
           <div className="article__text">
-            <p>{body}</p>
+            <p>{description}</p>
           </div>
         </article>
         <div className="post__user user">
@@ -53,7 +53,11 @@ const Article = ({slug}) => {
             <img alt="user avatar" src={author.image}/>
           </div>
         </div>
-      </div>}
+        <div className='article__body'>
+          <p>{body}</p>
+        </div>
+      </div>
+      }
     </>
   );
 }
