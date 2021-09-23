@@ -3,8 +3,10 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import Header from "../Header/Header";
 import Posts from "../Posts/Posts";
-import PostBody from "../../PostBody/PostBody";
+import Article from "../Article/Article";
 import SignIn from "../SignIn/SignIn";
+import SignUp from "../SignUp/SignUp";
+import UserProfile from "../UserProfile/UserProfile";
 
 
 import './App.scss';
@@ -16,12 +18,14 @@ function App() {
       <BrowserRouter>
         <Header/>
         <main className="main">
-          <Route path="/" exact component={SignIn}/>
-          <Route path="/posts/" exact component={Posts}/>
-          <Route path="/posts/:slug"
+          <Route path="/sign-in" exact component={SignIn}/>
+          <Route path="/sign-up" exact component={SignUp}/>
+          <Route path="/profile" exact component={UserProfile}/>
+          <Route path={["/", "/articles/"]} exact component={Posts}/>
+          <Route path="/articles/:slug"
                  render={({match}) => {
                    const {slug} = match.params;
-                   return <PostBody slug={slug}/>
+                   return <Article slug={slug}/>
                  }}
           />
         </main>

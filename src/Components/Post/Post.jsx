@@ -1,12 +1,11 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
-import axios from 'axios';
 import { format } from 'date-fns'
 import heart from '../../assets/heart.svg'
 
-import './Post.css'
+import './Post.scss'
 
 const Post = ({post, history}) => {
 
@@ -14,13 +13,13 @@ const Post = ({post, history}) => {
 
   const date = format(new Date(createdAt), 'MMMM d, y');
 
-  const onPostClick = () => history.push(`/posts/${slug}`);
+  const onPostClick = () => history.push(`/articles/${slug}`);
 
   return (
-    <div className="post" onClick={onPostClick}>
+    <div className="post" >
       <article className="post__article">
         <div className="post__title">
-          <h5>{title}</h5>
+          <h5 onClick={onPostClick}>{title}</h5>
           <div className="post__likes likes">
             <img alt="heart" src={heart}/>
             <div className="likes__count">{favoritesCount}</div>

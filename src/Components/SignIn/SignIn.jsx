@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-import FormInput from "../../FormInput/FormInput";
-import Button from "../../Button/Button";
+import FormInput from "../FormInput/FormInput";
+import Button from "../Button/Button";
+import { Link } from "react-router-dom";
 
 const SignIn = () => {
   const [userData, setUserData] = useState({email: '', password: ''});
@@ -22,7 +23,7 @@ const SignIn = () => {
         <Button type="submit" children={"Sign In"}/>
         <div className="form__subtitle">
           Don’t have an account?
-          <a href="#">Sign Up.</a>
+          <Link to={'/sign-up'}>Sign Up.</Link>
         </div>
       </form>
     </div>

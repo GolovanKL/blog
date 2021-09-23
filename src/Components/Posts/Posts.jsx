@@ -17,28 +17,23 @@ function Posts() {
 
   useEffect(() => {
     setError('');
+    setLoading(true);
+    axios(`https://conduit.productionready.io/api/articles?limit=5&offset=${currentPage * 5 - 5}`)
+      .then(res => res.data)
+      .then(res => {
+        setLoading(false);
+        setPosts(res.articles);
+        setPostsTotal(res.articlesCount);
+      })
+      .catch(err => {
+        setLoading(false);
+        setError('Не удалось загрузить данные');
+        console.log(err);
+      })
 
-      setLoading(true);
-      axios(`https://conduit.productionready.io/api/articles?limit=5&offset=${currentPage * 5 - 5}`)
-        .then(res => res.data)
-        .then(res => {
-          setLoading(false);
-          setPosts(res.articles);
-          setPostsTotal(res.articlesCount);
-        })
-        .catch(err => {
-          setLoading(false);
-          setError('Не удалось загрузить данные');
-          console.log(err);
-        })
-
-  }, [postsTotal, currentPage])
+  }, [currentPage])
 
   console.log(posts);
-
-  const onPageChange = (num) => {
-    setCurrentPage(num);
-  }
 
   return (
     <div className="posts__container">
@@ -54,7 +49,7 @@ function Posts() {
           showSizeChanger={false}
           total={postsTotal}
           pageSize={5}
-          onChange={onPageChange}
+          onChange={(num) => setCurrentPage(num)}
         />
       </>)}
     </div>

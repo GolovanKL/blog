@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-import './Header.css';
+import './Header.scss';
 
 const MyComponent = () => {
 
@@ -10,8 +11,12 @@ const MyComponent = () => {
         <h6>Realworld Blog</h6>
       </div>
       <div className="header__auth auth">
-        <div className="auth__sign-in auth__element">Sign In</div>
-        <div className="auth__sign-up auth__element">Sign Up</div>
+        <div className="auth__sign-in auth__element">
+          <Link to={'/sign-in'}>Sign In</Link>
+          </div>
+        <div className="auth__sign-up auth__element">
+          <Link to={'/sign-up'}>Sign Up</Link>
+        </div>
       </div>
     </header>
   );
