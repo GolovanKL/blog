@@ -9,6 +9,17 @@
   min-height: 80px;
   font-size: 18px;
   line-height: 156%;
+  transition: all 0.3s ease 0s;
+
+  .header__title {
+
+    a:hover {
+      h6 {
+        transition: all 0.3s ease 0s;
+        color: #1890FF;
+      }
+    }
+  }
 
   .auth {
     display: flex;
@@ -25,6 +36,10 @@
     .auth__sign-in {
       a {
         color: rgba(0, 0, 0, 0.85);
+
+        &:hover {
+          color: #1890FF;
+        }
       }
     }
 
@@ -35,6 +50,9 @@
       a {
         color: #52C41A;
 
+        &:hover {
+          color: #1890FF;
+        }
       }
     }
   }
