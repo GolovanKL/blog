@@ -2,18 +2,18 @@ import React from 'react';
 
 import './FormInput.scss';
 
-function FormInput({handleChange, label, ...props}) {
+const FormInput = React.forwardRef((props, ref) => {
+  const {label, value, error} = props;
 
   return (
     <div className="group">
-      <input className="form-input" onChange={handleChange} {...props}
-      />
+      <input className={`${error ? 'error' : ''} form-input`} {...props} value={value || ''}  ref={ref}/>
       {label ?
-        <label className={`${props.value.length ? 'shrink' : ''} form-input-label`}>{label}</label>
+        <label className={`${value ? 'shrink' : ''} form-input-label`}>{label}</label>
         : null
       }
     </div>
   );
-}
+});
 
 export default FormInput;

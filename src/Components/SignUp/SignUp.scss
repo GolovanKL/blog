@@ -1,0 +1,28 @@
+.delimiter {
+  width: 100%;
+  border-bottom: 1px solid #E8E8E8;
+  margin-bottom: 8px;
+}
+
+.checkbox {
+  font-size: 14px;
+  line-height: 157%;
+  color: #595959;
+  display: flex;
+  align-items: center;
+
+  input {
+    height: 16px;
+    width: 16px;
+  }
+
+  label {
+    padding-left: 8px;
+
+    &.error {
+      color: #F5222D;
+    }
+  }
+
+
+}

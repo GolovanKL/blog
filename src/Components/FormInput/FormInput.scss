@@ -10,7 +10,7 @@ $main-color: black;
 
 .group {
   position: relative;
-  margin: 35px 0;
+  margin: 35px 0 10px 0;
 
   .form-input {
     background: white none;
@@ -31,6 +31,10 @@ $main-color: black;
 
     &:focus ~ .form-input-label {
       @include shrinkLabel();
+    }
+
+    &.error {
+      border-color: #F5222D;
     }
   }
 

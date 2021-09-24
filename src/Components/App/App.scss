@@ -20,6 +20,7 @@ main {
 }
 
 .form {
+  font-family: Roboto, sans-serif;
   min-width: 384px;
   padding: 48px 32px;
   margin-top: 60px;
@@ -27,6 +28,16 @@ main {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+
+  .controller {
+    margin: 15px 0;
+  }
+
+  .form__error {
+    color: #F5222D;
+    font-size: 14px;
+    line-height: 157%;
+  }
 }
 
 .form__title {
