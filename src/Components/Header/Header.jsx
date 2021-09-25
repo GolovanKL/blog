@@ -9,8 +9,6 @@ import './Header.scss';
 
 const Header = ({user, logOut}) => {
 
-  const userImage = {}
-
   const headerAuth =
     <div className="header__auth auth">
       <div className="auth__sign-in auth__element">
@@ -28,7 +26,7 @@ const Header = ({user, logOut}) => {
       </div>
       <div className="header__user">
         <div className='header__username'>{user.username}</div>
-        <div className='header__avatar'><img src={user.image || userAvatar} alt="user image"/></div>
+        <div className='header__avatar'><img src={user.image || userAvatar} alt="user"/></div>
       </div>
       <div className="log-out">
         <button onClick={logOut} className="log-out__button">Log Out</button>

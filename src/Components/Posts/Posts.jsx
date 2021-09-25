@@ -34,7 +34,7 @@ function Posts({setArticles, articles}) {
         console.log(err);
       })
 
-  }, [currentPage])
+  }, [currentPage, setArticles])
 
   console.log(posts);
 
