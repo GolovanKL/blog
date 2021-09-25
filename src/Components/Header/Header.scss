@@ -56,6 +56,56 @@
       }
     }
   }
+
+  .header__loggedin {
+    display: flex;
+    //justify-content: flex-end;
+    align-items: center;
+
+    .header__newpost {
+      display: flex;
+      height: 31px;
+      width: 112px;
+      border: 1px solid #52C41A;
+      border-radius: 5px;
+      font-size: 14px;
+      line-height: 157%;
+      align-items: center;
+      justify-content: center;
+
+      a {
+        color: #52C41A;
+      }
+    }
+
+    .header__user {
+      display: flex;
+      width: fit-content;
+      align-items: center;
+
+      .header__username {
+        font-size: 18px;
+        line-height: 156%;
+        color: rgba(0, 0, 0, 0.85);
+        margin-right: 13px;
+      }
+    }
+
+    .log-out {
+
+      button {
+        background-color: white;
+        width: 109px;
+        height: 51px;
+        border: 1px solid rgba(0, 0, 0, 0.75);
+        border-radius: 5px;
+      }
+    }
+
+    & > :not(:last-child) {
+      margin-right: 27px;
+    }
+  }
 }
 
 

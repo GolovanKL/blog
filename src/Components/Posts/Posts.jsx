@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from "react-redux";
 import axios from 'axios';
 import uniqid from 'uniqid';
 import { Spin, Alert, Pagination } from 'antd';
+
+import {setArticles} from "../../Reducer/store.actions";
 
 import Post from "../Post/Post";
 
 import './Posts.css'
 
-function Posts() {
+function Posts({setArticles, articles}) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [posts, setPosts] = useState([]);
+  const [posts] = useState([]);
   const [postsTotal, setPostsTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -22,7 +25,7 @@ function Posts() {
       .then(res => res.data)
       .then(res => {
         setLoading(false);
-        setPosts(res.articles);
+        setArticles(res.articles);
         setPostsTotal(res.articlesCount);
       })
       .catch(err => {
@@ -41,7 +44,7 @@ function Posts() {
       {error && <Alert type="error" message={error}/>}
       {!loading && !error && (<>
         <div className="posts">
-          {posts.map(post => <Post key={uniqid()} post={post}/>)}
+          {articles.map(post => <Post key={uniqid()} post={post}/>)}
         </div>
         <Pagination
           size="small"
@@ -56,4 +59,10 @@ function Posts() {
   );
 }
 
-export default Posts;
+const mapDispatchToProps = { setArticles };
+
+const mapStateToProps = ({articles}) => ({
+  articles,
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Posts);

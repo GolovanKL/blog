@@ -1,16 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
+import { withRouter } from 'react-router-dom';
+import axios from 'axios';
+
+import {setUser} from "../../Reducer/store.actions";
 
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 
 import './SignUp.scss';
 
-const SignUp = () => {
+const SignUp = ({setUser, history}) => {
   const {register, control, handleSubmit, watch, formState: {errors}} = useForm();
 
-  const onSubmit = data => console.log(data);
+  const [apiErrors, setApiErrors] = useState({});
+
+  const onSubmit = ({username, email, password}) => {
+    axios.post('https://conduit.productionready.io/api/users', {
+      "user":{
+        "username": username,
+        "email": email,
+        "password": password
+      }
+    }).then(res => {
+      setUser(res.data.user);
+      history.push('/');
+    })
+      .catch(error => error.response.data.errors)
+      .then(errors => setApiErrors(errors))
+  }
 
   const errorMessage = (type, name, minLength, maxLength) => {
     switch (type) {
@@ -122,4 +142,6 @@ const SignUp = () => {
   )
 }
 
-export default SignUp;
+const mapDispatchToProps = {setUser}
+
+export default connect(null, mapDispatchToProps)(withRouter(SignUp));
