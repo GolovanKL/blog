@@ -1,15 +1,32 @@
 import React from 'react';
+import { Link, withRouter } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
+import { connect } from 'react-redux';
+import axios from "axios";
 
+import { setUser } from "../../Reducer/store.actions";
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
-import { Link } from "react-router-dom";
 
-const SignIn = () => {
+const SignIn = ({setUser, history}) => {
 
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
 
-  const onSubmit = data => console.log(data);
+  const onSubmit = ({email, password}) => {
+    axios.post('https://conduit.productionready.io/api/users/login', {
+      "user": {
+        "email": email,
+        "password": password
+      }
+    })
+      .then(res => {
+          console.log(res.data.user);
+          setUser(res.data.user);
+          sessionStorage.setItem('user', JSON.stringify(res.data.user));
+          history.push('/');
+        }
+      )
+  }
 
   const errorMessage = (message) => <span className="form__error">{message}</span>;
 
@@ -35,7 +52,7 @@ const SignIn = () => {
             control={control}
             rules={{required: "Enter your password", minLength: 6, maxLength: 40}}
             render={({field}) =>
-              <FormInput {...field} value={watch("password")} label="Password" error={errors.password}/>
+              <FormInput {...field} type="password" value={watch("password")} label="Password" error={errors.password}/>
             }
           />
           {errors.password && errorMessage(errors.password.message)}
@@ -50,4 +67,6 @@ const SignIn = () => {
   )
 }
 
-export default SignIn;
+const mapDispatchToProps = {setUser};
+
+export default connect(null, mapDispatchToProps)(withRouter(SignIn));

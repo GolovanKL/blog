@@ -4,17 +4,16 @@ import axios from 'axios';
 import uniqid from 'uniqid';
 import { Spin, Alert, Pagination } from 'antd';
 
-import {setArticles} from "../../Reducer/store.actions";
+import {setArticles, setUser} from "../../Reducer/store.actions";
 
 import Post from "../Post/Post";
 
 import './Posts.css'
 
-function Posts({setArticles, articles}) {
+function Posts({setArticles, articles }) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [posts] = useState([]);
   const [postsTotal, setPostsTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -35,8 +34,6 @@ function Posts({setArticles, articles}) {
       })
 
   }, [currentPage, setArticles])
-
-  console.log(posts);
 
   return (
     <div className="posts__container">
@@ -59,7 +56,7 @@ function Posts({setArticles, articles}) {
   );
 }
 
-const mapDispatchToProps = { setArticles };
+const mapDispatchToProps = { setArticles, setUser };
 
 const mapStateToProps = ({articles}) => ({
   articles,

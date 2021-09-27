@@ -15,6 +15,9 @@ export const setArticles = articles => ({
   payload: articles
 });
 
-export const logOut = () => ({
-  type: actionTypes.LOG_OUT,
-})
+export const logOut = () => {
+  sessionStorage.removeItem('user');
+  return {
+    type: actionTypes.LOG_OUT,
+  }
+}

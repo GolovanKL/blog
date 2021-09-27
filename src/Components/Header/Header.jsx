@@ -2,12 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import {logOut} from "../../Reducer/store.actions";
+import {logOut, setUser} from "../../Reducer/store.actions";
 import userAvatar from '../../assets/user.png'
 
 import './Header.scss';
 
-const Header = ({user, logOut}) => {
+const Header = ({user, logOut, setUser}) => {
+
+  if (!user.username) {
+    // console.log(JSON.parse(sessionStorage.getItem('user')))
+    sessionStorage.getItem('user') && setUser(JSON.parse(sessionStorage.getItem('user')));
+  }
 
   const headerAuth =
     <div className="header__auth auth">
@@ -33,8 +38,6 @@ const Header = ({user, logOut}) => {
       </div>
     </div>
 
-  console.log('user', user);
-
   return (
     <header className="header">
       <div className="header__title">
@@ -47,7 +50,7 @@ const Header = ({user, logOut}) => {
   );
 };
 
-const mapDispatchTOProps ={ logOut };
+const mapDispatchTOProps ={ logOut, setUser };
 
 const mapStateToProps = ({user}) => ({
   user,

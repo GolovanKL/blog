@@ -26,6 +26,7 @@ const SignUp = ({setUser, history}) => {
       }
     }).then(res => {
       setUser(res.data.user);
+      sessionStorage.setItem('user', JSON.stringify(res.data.user));
       history.push('/');
     })
       .catch(error => error.response.data.errors)
