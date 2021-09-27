@@ -2,8 +2,8 @@ import React from 'react';
 import { Link, withRouter } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { connect } from 'react-redux';
-import axios from "axios";
 
+import BlogApi from "../blogApi/BlogApi";
 import { errorMessage } from '../utils/utils'
 
 import { setUser } from "../../Reducer/store.actions";
@@ -11,23 +11,20 @@ import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 
 const SignIn = ({setUser, history}) => {
+  const {userSignIn} = new BlogApi();
 
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
 
   const onSubmit = ({email, password}) => {
-    axios.post('https://conduit.productionready.io/api/users/login', {
-      "user": {
-        "email": email,
-        "password": password
-      }
-    })
-      .then(res => {
-          console.log(res.data.user);
-          setUser(res.data.user);
-          sessionStorage.setItem('user', JSON.stringify(res.data.user));
+    userSignIn(email, password)
+      .then(res => res.data.user)
+      .then(user => {
+          setUser(user);
+          sessionStorage.setItem('user', JSON.stringify(user));
           history.push('/');
         }
-      )
+      ).catch(err => console.dir(err))
+
   }
 
   return (

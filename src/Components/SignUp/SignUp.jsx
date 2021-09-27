@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { withRouter } from 'react-router-dom';
-import axios from 'axios';
 
-import {errorMessage} from '../utils/utils'
+import { errorMessage } from '../utils/utils'
+import BlogApi from "../blogApi/BlogApi";
 
-import {setUser} from "../../Reducer/store.actions";
+import { setUser } from "../../Reducer/store.actions";
 
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
@@ -15,44 +15,26 @@ import Button from "../Button/Button";
 import './SignUp.scss';
 
 const SignUp = ({setUser, history}) => {
+  const {userSignUp} = new BlogApi();
+
   const {register, control, handleSubmit, watch, formState: {errors}} = useForm();
 
-  const [apiErrors, setApiErrors] = useState({});
+  // const [apiErrors, setApiErrors] = useState({});
 
   const onSubmit = ({username, email, password}) => {
-    axios.post('https://conduit.productionready.io/api/users', {
-      "user":{
-        "username": username,
-        "email": email,
-        "password": password
-      }
-    }).then(res => {
-      setUser(res.data.user);
-      sessionStorage.setItem('user', JSON.stringify(res.data.user));
-      history.push('/');
-    })
-      .catch(error => error.response.data.errors)
-      .then(errors => setApiErrors(errors))
+    console.log(username, email, password)
+    userSignUp(username, email, password)
+      .then(res => res.data.user)
+      .then(user => {
+        if (user) {
+          setUser(user)
+          sessionStorage.setItem('user', JSON.stringify(user));
+          history.push('/');
+        }
+      })
+      .catch(error => console.dir(error))
+    // .then(errors => setApiErrors(errors))
   }
-
-  console.log(apiErrors);
-
-  // const errorMessage = (type, name, minLength, maxLength) => {
-  //   switch (type) {
-  //     case 'required':
-  //       return <span className="form__error">Enter your {name}.</span>
-  //     case 'minLength':
-  //       return <span className="form__error">Your {name} needs to be at least {minLength} characters.</span>
-  //     case 'maxLength':
-  //       return <span className="form__error">Your {name} needs to be no more than {maxLength} characters.</span>
-  //     case 'pattern':
-  //       return <span className="form__error">Enter valid Email address</span>
-  //     case 'validate':
-  //       return <span className="form__error">Passwords must match</span>
-  //     default:
-  //       return null
-  //   }
-  // }
 
   return (
     <div className="signup form _block">
@@ -114,7 +96,8 @@ const SignUp = ({setUser, history}) => {
             control={control}
             rules={{
               required: true,
-              validate: value => value === watch("password") || 'error' }}
+              validate: value => value === watch("password") || 'error'
+            }}
             render={({field}) =>
               <FormInput {...field}
                          type="password"
@@ -131,9 +114,9 @@ const SignUp = ({setUser, history}) => {
           <input
             type="checkbox"
             id="checkbox"
-            {...register("checkbox", { required: true })}
+            {...register("checkbox", {required: true})}
           />
-          <label  className={`${errors.checkbox ? 'error' : ''}`} htmlFor="checkbox">
+          <label className={`${errors.checkbox ? 'error' : ''}`} htmlFor="checkbox">
             I agree to the processing of my personal information
           </label>
         </div>

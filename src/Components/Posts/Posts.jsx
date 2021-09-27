@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
-import axios from 'axios';
 import uniqid from 'uniqid';
 import { Spin, Alert, Pagination } from 'antd';
 
+import BlogApi from "../blogApi/BlogApi";
 import {setArticles, setUser} from "../../Reducer/store.actions";
 
 import Post from "../Post/Post";
@@ -11,6 +11,8 @@ import Post from "../Post/Post";
 import './Posts.css'
 
 function Posts({setArticles, articles }) {
+
+  const {getArticles} = new BlogApi();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -20,9 +22,7 @@ function Posts({setArticles, articles }) {
   useEffect(() => {
     setError('');
     setLoading(true);
-    axios(`https://conduit.productionready.io/api/articles?limit=5&offset=${currentPage * 5 - 5}`)
-      .then(res => res.data)
-      .then(res => {
+    getArticles(currentPage).then(res => {
         setLoading(false);
         setArticles(res.articles);
         setPostsTotal(res.articlesCount);

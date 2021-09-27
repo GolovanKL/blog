@@ -13,7 +13,7 @@ const NewArticle = () => {
   const [tagList, setTagList] = useState([{value: '', id: uniqid()}]);
 
   const onSubmit = ({title, description, text}) => {
-    axios.post('https://conduit.productionready.io/api/articles', {
+    axios.post('https://api.realworld.io/api/articles', {
       "article": {
         "title": title,
         "description": description,

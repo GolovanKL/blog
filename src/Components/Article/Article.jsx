@@ -11,7 +11,7 @@ const Article = ({slug}) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios(`https://conduit.productionready.io/api/articles/${slug}`)
+    axios(`https://api.realworld.io/api/articles/${slug}`)
       .then(res => {
         setArticle(res.data.article);
         setLoading(false);
