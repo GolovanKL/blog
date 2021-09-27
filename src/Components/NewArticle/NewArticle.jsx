@@ -6,7 +6,6 @@ import FormInput from "../FormInput/FormInput";
 
 import './NewArticle.scss'
 import Button from "../Button/Button";
-import Tag from "../Tag/Tag";
 
 const NewArticle = () => {
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
