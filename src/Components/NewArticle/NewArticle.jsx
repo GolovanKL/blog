@@ -17,8 +17,8 @@ const NewArticle = () => {
   }
 
   const addNewTag = () => {
-    const newTag = {value: '', id: uniqid() }
-    setTagList( prev => [...prev, newTag])
+    const newTag = {value: '', id: uniqid()}
+    setTagList(prev => [...prev, newTag])
   }
 
   const deleteTag = (id) => {
@@ -65,16 +65,41 @@ const NewArticle = () => {
               control={control}
               rules={{required: true, minLength: 3}}
               render={({field}) =>
-                <textarea {...field}
-                          value={watch("text")}
-                          placeholder="Text"
-                />
+                <div className="group">
+                  <textarea {...field}
+                            className="form-input"
+                            value={watch("text")}
+                  />
+                  <label className={`${watch("text") ? 'shrink' : ''} form-input-label`}>Text</label>
+
+                </div>
               }
             />
           </div>
           <div className="tags">
             <label htmlFor="">Tags</label>
-            { tagList.map(({id}) => <Tag key={id} id={id} onAdd={addNewTag} onDelete={deleteTag} />)}
+            {tagList.map((elem, id) => {
+              const key = `tag-${elem.id}`;
+              return (
+                <div key={key} className="tags__input">
+                  <Controller
+                    name={key}
+                    control={control}
+                    rules={{required: true}}
+                    render={({field}) =>
+                      <FormInput {...field}
+                                 value={watch(key)}
+                                 placeholder="Tag"
+                                 error={errors[key]}
+                      />
+                    }
+                  />
+                  <button className="tags__delete" type="button" onClick={() => deleteTag(elem.id)}>Delete</button>
+                  {id === tagList.length - 1 &&
+                  <button className="tags__add" onClick={addNewTag} type="button">Add tag</button>}
+                </div>
+              )
+            })}
           </div>
           <Button type="submit" children={"Send"}/>
         </form>
