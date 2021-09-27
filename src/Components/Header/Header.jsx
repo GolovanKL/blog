@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import {logOut, setUser} from "../../Reducer/store.actions";
+import { logOut, setUser } from "../../Reducer/store.actions";
 import userAvatar from '../../assets/user.png'
 
 import './Header.scss';
@@ -16,12 +16,16 @@ const Header = ({user, logOut, setUser}) => {
 
   const headerAuth =
     <div className="header__auth auth">
-      <div className="auth__sign-in auth__element">
-        <Link to={'/sign-in'}>Sign In</Link>
-      </div>
-      <div className="auth__sign-up auth__element">
-        <Link to={'/sign-up'}>Sign Up</Link>
-      </div>
+      <Link to={'/sign-in'}>
+        <div className="auth__sign-in auth__element">
+          Sign In
+        </div>
+      </Link>
+      <Link to={'/sign-up'}>
+        <div className="auth__sign-up auth__element">
+          Sign Up
+        </div>
+      </Link>
     </div>
 
   const headerUser =
@@ -50,7 +54,7 @@ const Header = ({user, logOut, setUser}) => {
   );
 };
 
-const mapDispatchTOProps ={ logOut, setUser };
+const mapDispatchTOProps = {logOut, setUser};
 
 const mapStateToProps = ({user}) => ({
   user,

@@ -29,37 +29,32 @@
       padding: 10px 18px;
 
       &:not(:last-child) {
-        margin-right: 25px;
       }
     }
 
     .auth__sign-in {
-      a {
-        color: rgba(0, 0, 0, 0.85);
+      margin-right: 25px;
+      color: rgba(0, 0, 0, 0.85);
 
-        &:hover {
-          color: #1890FF;
-        }
+      &:hover {
+        color: #1890FF;
       }
     }
 
     .auth__sign-up {
       border: 1px solid #52C41A;
       border-radius: 5px;
+      color: #52C41A;
 
-      a {
-        color: #52C41A;
-
-        &:hover {
-          color: #1890FF;
-        }
+      &:hover {
+        color: #1890FF;
+        border-color: #1890FF;
       }
     }
   }
 
   .header__loggedin {
     display: flex;
-    //justify-content: flex-end;
     align-items: center;
 
     .header__newpost {
@@ -88,6 +83,12 @@
         line-height: 156%;
         color: rgba(0, 0, 0, 0.85);
         margin-right: 13px;
+      }
+
+      .header__avatar img {
+        height: 46px;
+        width: 46px;
+        border-radius: 50%;
       }
     }
 

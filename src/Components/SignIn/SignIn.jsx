@@ -4,6 +4,8 @@ import { useForm, Controller } from "react-hook-form";
 import { connect } from 'react-redux';
 import axios from "axios";
 
+import { errorMessage } from '../utils/utils'
+
 import { setUser } from "../../Reducer/store.actions";
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
@@ -28,8 +30,6 @@ const SignIn = ({setUser, history}) => {
       )
   }
 
-  const errorMessage = (message) => <span className="form__error">{message}</span>;
-
   return (
     <div className="signin form _block">
       <h2 className="form__title">Sign In</h2>
@@ -39,12 +39,12 @@ const SignIn = ({setUser, history}) => {
             className="controller"
             name="email"
             control={control}
-            rules={{required: "Enter your Email"}}
+            rules={{required: "Enter your Email", pattern: /.+@.+\..+/i}}
             render={({field}) =>
               <FormInput {...field} value={watch("email")} label="Email" error={errors.email}/>
             }
           />
-          {errors.email && errorMessage(errors.email.message)}
+          {errors.email && errorMessage(errors.email.type, 'Email')}
         </div>
         <div className="controller">
           <Controller
@@ -55,7 +55,7 @@ const SignIn = ({setUser, history}) => {
               <FormInput {...field} type="password" value={watch("password")} label="Password" error={errors.password}/>
             }
           />
-          {errors.password && errorMessage(errors.password.message)}
+          {errors.password && errorMessage(errors.password.type, 'password', 6, 40)}
         </div>
         <Button type="submit" children={"Sign In"}/>
         <div className="form__subtitle">

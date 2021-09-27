@@ -5,6 +5,8 @@ import { Controller, useForm } from "react-hook-form";
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
+import {errorMessage} from '../utils/utils'
+
 import {setUser} from "../../Reducer/store.actions";
 
 import FormInput from "../FormInput/FormInput";
@@ -33,22 +35,24 @@ const SignUp = ({setUser, history}) => {
       .then(errors => setApiErrors(errors))
   }
 
-  const errorMessage = (type, name, minLength, maxLength) => {
-    switch (type) {
-      case 'required':
-        return <span className="form__error">Enter your {name}.</span>
-      case 'minLength':
-        return <span className="form__error">Your {name} needs to be at least {minLength} characters.</span>
-      case 'maxLength':
-        return <span className="form__error">Your {name} needs to be no more than {maxLength} characters.</span>
-      case 'pattern':
-        return <span className="form__error">Enter valid Email address</span>
-      case 'validate':
-        return <span className="form__error">Passwords must match</span>
-      default:
-        return null
-    }
-  }
+  console.log(apiErrors);
+
+  // const errorMessage = (type, name, minLength, maxLength) => {
+  //   switch (type) {
+  //     case 'required':
+  //       return <span className="form__error">Enter your {name}.</span>
+  //     case 'minLength':
+  //       return <span className="form__error">Your {name} needs to be at least {minLength} characters.</span>
+  //     case 'maxLength':
+  //       return <span className="form__error">Your {name} needs to be no more than {maxLength} characters.</span>
+  //     case 'pattern':
+  //       return <span className="form__error">Enter valid Email address</span>
+  //     case 'validate':
+  //       return <span className="form__error">Passwords must match</span>
+  //     default:
+  //       return null
+  //   }
+  // }
 
   return (
     <div className="signup form _block">

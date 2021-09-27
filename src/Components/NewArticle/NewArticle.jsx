@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import uniqid from 'uniqid';
+import axios from "axios";
 
 import FormInput from "../FormInput/FormInput";
 
@@ -11,8 +12,16 @@ const NewArticle = () => {
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
   const [tagList, setTagList] = useState([{value: '', id: uniqid()}]);
 
-  const onSubmit = data => {
-    console.log(data);
+  const onSubmit = ({title, description, text}) => {
+    axios.post('https://conduit.productionready.io/api/articles', {
+      "article": {
+        "title": title,
+        "description": description,
+        "body": text,
+      }
+    }).then(res => console.log(res))
+
+    console.log(title, description, text);
   }
 
   const addNewTag = () => {
