@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, withRouter } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { connect } from 'react-redux';
+import ModalError from '../ModalError/ModalError';
 
 import BlogApi from "../blogApi/BlogApi";
 import { errorMessage } from '../utils/utils'
@@ -12,6 +13,7 @@ import Button from "../Button/Button";
 
 const SignIn = ({setUser, history}) => {
   const {userSignIn} = new BlogApi();
+  const [error, setError] = useState(false);
 
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
 
@@ -23,12 +25,13 @@ const SignIn = ({setUser, history}) => {
           sessionStorage.setItem('user', JSON.stringify(user));
           history.push('/');
         }
-      ).catch(err => console.dir(err))
-
+      ).catch(err => setError(err.response.data.errors));
   }
 
   return (
+
     <div className="signin form _block">
+      {error && <ModalError error={error} setError={setError}/>}
       <h2 className="form__title">Sign In</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="signin__form">
         <div className="controller">

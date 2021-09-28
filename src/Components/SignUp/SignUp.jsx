@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
@@ -11,15 +11,15 @@ import { setUser } from "../../Reducer/store.actions";
 
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
+import ModalError from "../ModalError/ModalError";
 
 import './SignUp.scss';
 
 const SignUp = ({setUser, history}) => {
   const {userSignUp} = new BlogApi();
+  const [error, setError] = useState(false);
 
   const {register, control, handleSubmit, watch, formState: {errors}} = useForm();
-
-  // const [apiErrors, setApiErrors] = useState({});
 
   const onSubmit = ({username, email, password}) => {
     console.log(username, email, password)
@@ -32,12 +32,12 @@ const SignUp = ({setUser, history}) => {
           history.push('/');
         }
       })
-      .catch(error => console.dir(error))
-    // .then(errors => setApiErrors(errors))
+      .catch(err => setError(err.response.data.errors));
   }
 
   return (
     <div className="signup form _block">
+      {error && <ModalError error={error} setError={setError}/>}
       <h2 className="form__title">Create new account</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="signup__form">
         <div className="controller">

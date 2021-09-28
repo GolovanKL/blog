@@ -12,7 +12,7 @@ import './Posts.css'
 
 function Posts({setArticles, articles }) {
 
-  const {getArticles} = new BlogApi();
+  const {getAllArticles} = new BlogApi();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -22,7 +22,7 @@ function Posts({setArticles, articles }) {
   useEffect(() => {
     setError('');
     setLoading(true);
-    getArticles(currentPage).then(res => {
+    getAllArticles(currentPage).then(res => {
         setLoading(false);
         setArticles(res.articles);
         setPostsTotal(res.articlesCount);

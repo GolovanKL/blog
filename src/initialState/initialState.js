@@ -1,7 +1,7 @@
 const initialState ={
+  user: null,
   articles: [],
-  user: {},
-  apiErrors: {},
+  apiErrors: null
 }
 
 export default initialState;

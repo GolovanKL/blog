@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import uniqid from 'uniqid';
-import axios from "axios";
 
+import BlogApi from "../blogApi/BlogApi";
 import FormInput from "../FormInput/FormInput";
 
 import './NewArticle.scss'
@@ -12,14 +12,11 @@ const NewArticle = () => {
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
   const [tagList, setTagList] = useState([{value: '', id: uniqid()}]);
 
+  const {makeNewArticle} = new BlogApi();
+
   const onSubmit = ({title, description, text}) => {
-    axios.post('https://api.realworld.io/api/articles', {
-      "article": {
-        "title": title,
-        "description": description,
-        "body": text,
-      }
-    }).then(res => console.log(res))
+    makeNewArticle(title, description, text)
+      .then(res => console.log(res))
 
     console.log(title, description, text);
   }

@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
 import { Spin } from 'antd';
 import uniqid from "uniqid";
 import heart from "../../assets/heart.svg";
 import { format } from "date-fns";
+import BlogApi from "../blogApi/BlogApi";
 
 
 const Article = ({slug}) => {
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const {getOneArticle} = new BlogApi();
+
   useEffect(() => {
-    axios(`https://api.realworld.io/api/articles/${slug}`)
+    getOneArticle(slug)
       .then(res => {
         setArticle(res.data.article);
         setLoading(false);
         console.log(res.data.article);
       })
       .catch(() => setLoading(false))
-  }, [slug])
+  }, [slug, getOneArticle])
 
   const {title, description, body, favoritesCount, createdAt, author, tagList} = article;
 
