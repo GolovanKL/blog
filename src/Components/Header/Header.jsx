@@ -9,9 +9,9 @@ import './Header.scss';
 
 const Header = ({user, logOut, setUser}) => {
 
-  if (user) {
-    // console.log(JSON.parse(sessionStorage.getItem('user')))
-    // sessionStorage.getItem('user') && setUser(JSON.parse(sessionStorage.getItem('user')));
+  if (!user.username) {
+    console.log(JSON.parse(sessionStorage.getItem('user')))
+    sessionStorage.getItem('user') && setUser(JSON.parse(sessionStorage.getItem('user')));
   }
 
   const headerAuth =
@@ -28,15 +28,17 @@ const Header = ({user, logOut, setUser}) => {
       </Link>
     </div>
 
-  const headerUser = user &&
+  const headerUser = user.username &&
     <div className='header__loggedin'>
       <div className="header__newpost">
         <Link to={'/new-article'}>Create article</Link>
       </div>
-      <div className="header__user">
-        <div className='header__username'>{user.username}</div>
-        <div className='header__avatar'><img src={user.image || userAvatar} alt="user"/></div>
-      </div>
+      <Link to={'/profile'}>
+        <div className="header__user">
+          <div className='header__username'>{user.username}</div>
+          <div className='header__avatar'><img src={user.image || userAvatar} alt="user"/></div>
+        </div>
+      </Link>
       <div className="log-out">
         <button onClick={logOut} className="log-out__button">Log Out</button>
       </div>
@@ -49,7 +51,7 @@ const Header = ({user, logOut, setUser}) => {
           <h6>Realworld Blog</h6>
         </Link>
       </div>
-      {user ? headerUser : headerAuth}
+      {user.username ? headerUser : headerAuth}
     </header>
   );
 };

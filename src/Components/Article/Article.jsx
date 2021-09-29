@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import uniqid from "uniqid";
 import heart from "../../assets/heart.svg";
@@ -14,8 +14,16 @@ const Article = ({slug}) => {
 
   const {getOneArticle, favoriteArticle, unFavoriteArticle} = new BlogApi();
 
+  const memoGetArticle = useCallback(
+    () => {
+     return getOneArticle(slug)
+    },
+    [slug, getOneArticle],
+  );
+
+
   useEffect(() => {
-    getOneArticle(slug)
+    memoGetArticle()
       .then(res => {
         setArticle(res.data.article);
         setLoading(false);

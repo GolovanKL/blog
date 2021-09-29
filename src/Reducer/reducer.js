@@ -21,7 +21,7 @@ const reducer = (state = initial, action) => {
     case actionTypes.LOG_OUT:
       return {
         ...state,
-        user: {}
+        user: {username: null}
       }
     default: return state;
   }
