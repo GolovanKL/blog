@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { withRouter } from 'react-router-dom';
 
-import { errorMessage } from '../utils/utils'
-import BlogApi from "../blogApi/BlogApi";
+import { errorMessage } from '../../utils/utils'
+import BlogApi from "../../blogApi/BlogApi";
 
 import { setUser } from "../../Reducer/store.actions";
 

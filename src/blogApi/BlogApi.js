@@ -5,7 +5,7 @@ export default class BlogApi {
   apiBase1 = 'https://conduit.productionready.io/api/';
   apiBase2 = 'https://realworld-temp-api.herokuapp.com/api/';
   apiBase3 = 'https://api.realworld.io/api/';
-  apiBase = this.apiBase2;
+  apiBase = this.apiBase1;
 
 
   getAllArticles = (currentPage) => {
@@ -15,6 +15,14 @@ export default class BlogApi {
 
   getOneArticle = (slug) => {
     return axios(`${this.apiBase}articles/${slug}`)
+  }
+
+  favoriteArticle = (slug) => {
+    return axios.post(`${this.apiBase}articles/${slug}/favorite`)
+  }
+
+  unFavoriteArticle = (slug) => {
+    return axios.delete(`${this.apiBase}articles/${slug}/favorite`)
   }
 
   userSignIn = (email, password) => {

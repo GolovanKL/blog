@@ -3,14 +3,16 @@ import { Spin } from 'antd';
 import uniqid from "uniqid";
 import heart from "../../assets/heart.svg";
 import { format } from "date-fns";
-import BlogApi from "../blogApi/BlogApi";
+import BlogApi from "../../blogApi/BlogApi";
+
+import './Article.css';
 
 
 const Article = ({slug}) => {
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const {getOneArticle} = new BlogApi();
+  const {getOneArticle, favoriteArticle, unFavoriteArticle} = new BlogApi();
 
   useEffect(() => {
     getOneArticle(slug)
@@ -20,11 +22,13 @@ const Article = ({slug}) => {
         console.log(res.data.article);
       })
       .catch(() => setLoading(false))
-  }, [slug, getOneArticle])
+  }, [slug])
 
-  const {title, description, body, favoritesCount, createdAt, author, tagList} = article;
+  const {title, description, body, favoritesCount, createdAt, author, tagList, favorited} = article;
 
   const date = (createdAt && format(new Date(createdAt), 'MMMM d, y'));
+
+  const onFavorite = () => favorited ? unFavoriteArticle(slug) : favoriteArticle(slug)
 
   return (
     <>
@@ -35,7 +39,9 @@ const Article = ({slug}) => {
           <div className="post__title">
             <h5>{title}</h5>
             <div className="post__likes likes">
-              <img alt="heart" src={heart}/>
+              <button className="post__favorite" onClick={onFavorite}>
+                <img alt="heart" src={heart}/>
+              </button>
               <div className="likes__count">{favoritesCount}</div>
             </div>
           </div>

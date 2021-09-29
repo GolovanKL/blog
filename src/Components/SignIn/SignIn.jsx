@@ -4,8 +4,8 @@ import { useForm, Controller } from "react-hook-form";
 import { connect } from 'react-redux';
 import ModalError from '../ModalError/ModalError';
 
-import BlogApi from "../blogApi/BlogApi";
-import { errorMessage } from '../utils/utils'
+import BlogApi from "../../blogApi/BlogApi";
+import { errorMessage } from '../../utils/utils'
 
 import { setUser } from "../../Reducer/store.actions";
 import FormInput from "../FormInput/FormInput";

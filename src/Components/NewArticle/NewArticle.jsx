@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import uniqid from 'uniqid';
 
-import BlogApi from "../blogApi/BlogApi";
+import BlogApi from "../../blogApi/BlogApi";
 import FormInput from "../FormInput/FormInput";
 
 import './NewArticle.scss'
@@ -82,7 +82,8 @@ const NewArticle = () => {
             />
           </div>
           <div className="tags">
-            <label htmlFor="">Tags</label>
+            <label htmlFor="">Tags:</label>
+            {!tagList.length && <button className="tags__add" onClick={addNewTag} type="button">Add tag</button>}
             {tagList.map((elem, id) => {
               const key = `tag-${elem.id}`;
               return (
