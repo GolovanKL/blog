@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import uniqid from "uniqid";
 import heart from "../../assets/heart.svg";
@@ -7,23 +7,14 @@ import BlogApi from "../../blogApi/BlogApi";
 
 import './Article.css';
 
+const {getOneArticle, favoriteArticle, unFavoriteArticle} = new BlogApi();
 
 const Article = ({slug}) => {
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const {getOneArticle, favoriteArticle, unFavoriteArticle} = new BlogApi();
-
-  const memoGetArticle = useCallback(
-    () => {
-     return getOneArticle(slug)
-    },
-    [slug, getOneArticle],
-  );
-
-
   useEffect(() => {
-    memoGetArticle()
+    getOneArticle(slug)
       .then(res => {
         setArticle(res.data.article);
         setLoading(false);
@@ -47,7 +38,7 @@ const Article = ({slug}) => {
           <div className="post__title">
             <h5>{title}</h5>
             <div className="post__likes likes">
-              <button className="post__favorite" onClick={onFavorite}>
+              <button className="post__favorite" title="Add to favorites" onClick={onFavorite}>
                 <img alt="heart" src={heart}/>
               </button>
               <div className="likes__count">{favoritesCount}</div>

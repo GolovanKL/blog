@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { logOut, setUser } from "../../Reducer/store.actions";
@@ -7,11 +7,16 @@ import userAvatar from '../../assets/user.png'
 
 import './Header.scss';
 
-const Header = ({user, logOut, setUser}) => {
+const Header = ({user, logOut, setUser, history}) => {
 
   if (!user.username) {
     console.log(JSON.parse(sessionStorage.getItem('user')))
     sessionStorage.getItem('user') && setUser(JSON.parse(sessionStorage.getItem('user')));
+  }
+
+  const onLogOut = () => {
+    logOut();
+    history.push("/articles");
   }
 
   const headerAuth =
@@ -40,7 +45,7 @@ const Header = ({user, logOut, setUser}) => {
         </div>
       </Link>
       <div className="log-out">
-        <button onClick={logOut} className="log-out__button">Log Out</button>
+        <button onClick={onLogOut} className="log-out__button">Log Out</button>
       </div>
     </div>
 
@@ -62,4 +67,4 @@ const mapStateToProps = ({user}) => ({
   user,
 });
 
-export default connect(mapStateToProps, mapDispatchTOProps)(Header);
+export default connect(mapStateToProps, mapDispatchTOProps)(withRouter(Header));

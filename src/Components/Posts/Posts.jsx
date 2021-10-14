@@ -10,9 +10,9 @@ import Post from "../Post/Post";
 
 import './Posts.css'
 
-function Posts({setArticles, articles }) {
+const {getAllArticles} = new BlogApi();
 
-  const {getAllArticles} = new BlogApi();
+function Posts({setArticles, articles }) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

@@ -17,6 +17,7 @@ const NewArticle = () => {
   const onSubmit = ({title, description, text}) => {
     makeNewArticle(title, description, text)
       .then(res => console.log(res))
+      .catch(err => console.dir(err))
 
     console.log(title, description, text);
   }

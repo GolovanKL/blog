@@ -5,7 +5,8 @@ export default class BlogApi {
   apiBase1 = 'https://conduit.productionready.io/api/';
   apiBase2 = 'https://realworld-temp-api.herokuapp.com/api/';
   apiBase3 = 'https://api.realworld.io/api/';
-  apiBase = this.apiBase2;
+  apiBase4 = 'https://realworld-api.herokuapp.com/api/';
+  apiBase = this.apiBase3;
 
 
   getAllArticles = (currentPage) => {
@@ -44,13 +45,14 @@ export default class BlogApi {
     })
   }
 
-  editProfile = (username, email, password, url) => {
+  editProfile = (username, email, password, url, token) => {
     return axios.put(`${this.apiBase}user`, {
       "user":{
         "email": email,
         "username": username,
         "password": password,
-        "image": url
+        "image": url,
+        "token": token,
       }
     })
   }

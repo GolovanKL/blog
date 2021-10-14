@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
 import { errorMessage } from '../../utils/utils'
 import BlogApi from "../../blogApi/BlogApi";
@@ -11,13 +11,13 @@ import { setUser } from "../../Reducer/store.actions";
 
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
-import ModalError from "../ModalError/ModalError";
 
 import './SignUp.scss';
 
-const SignUp = ({setUser, history}) => {
-  const {userSignUp} = new BlogApi();
-  const [error, setError] = useState(false);
+const {userSignUp} = new BlogApi();
+
+const SignUp = ({dispatch, history, user: {username}}) => {
+  const [serverError, setServerError] = useState(false);
 
   const {register, control, handleSubmit, watch, formState: {errors}} = useForm();
 
@@ -27,19 +27,24 @@ const SignUp = ({setUser, history}) => {
       .then(res => res.data.user)
       .then(user => {
         if (user) {
-          setUser(user)
+          dispatch(setUser(user));
           sessionStorage.setItem('user', JSON.stringify(user));
           history.push('/');
         }
       })
-      .catch(err => setError(err.response.data.errors));
+      .catch(err => {
+        setServerError(err.response.data.errors)
+      });
+  }
+
+  if (username) {
+    return <Redirect to="/articles" />
   }
 
   return (
     <div className="signup form _block">
-      {error && <ModalError error={error} setError={setError}/>}
       <h2 className="form__title">Create new account</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="signup__form">
+      <form onSubmit={handleSubmit(onSubmit)} className='signup__form'>
         <div className="controller">
           <Controller
             className="controller"
@@ -50,11 +55,12 @@ const SignUp = ({setUser, history}) => {
               <FormInput {...field}
                          value={watch("username")}
                          label="Username"
-                         error={errors.username}
+                         error={errors.username || serverError.username}
               />
             }
           />
           {errors.username && errorMessage(errors.username.type, 'username', 3, 20)}
+          {serverError.username && <span className="form__error">Username has already been taken</span>}
         </div>
         <div className="controller">
           <Controller
@@ -66,11 +72,13 @@ const SignUp = ({setUser, history}) => {
               <FormInput {...field}
                          value={watch("email")}
                          label="Email"
-                         error={errors.email}
+                         error={errors.email || serverError.email}
               />
             }
           />
           {errors.email && errorMessage(errors.email.type, 'Email')}
+          {serverError.email && <span className="form__error">Email has already been taken</span>}
+
         </div>
         <div className="controller">
           <Controller
@@ -130,6 +138,6 @@ const SignUp = ({setUser, history}) => {
   )
 }
 
-const mapDispatchToProps = {setUser}
+const mapStateToProps = ({user}) => ({user})
 
-export default connect(null, mapDispatchToProps)(withRouter(SignUp));
+export default connect(mapStateToProps)(withRouter(SignUp));

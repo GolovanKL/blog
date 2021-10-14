@@ -87,6 +87,12 @@
       width: fit-content;
       align-items: center;
 
+      &:hover {
+        .header__username {
+          text-decoration: underline;
+        }
+      }
+
       .header__username {
         font-size: 18px;
         line-height: 156%;

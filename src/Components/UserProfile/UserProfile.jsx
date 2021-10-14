@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
 import BlogApi from "../../blogApi/BlogApi";
 import { errorMessage } from "../../utils/utils";
@@ -12,15 +12,15 @@ import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 import ModalError from "../ModalError/ModalError";
 
-const UserProfile = ({history, setUser}) => {
+const UserProfile = ({history, setUser, user: {token, username}}) => {
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
   const [error, setError] = useState(false);
 
   const {editProfile} = new BlogApi();
 
-  const onSubmit =({username, email, password, url}) => {
-    console.log(username, email, password, url);
-    editProfile(username, email, password, url)
+  const onSubmit = ({username, email, password, url}) => {
+    console.log(username, email, password, url, token);
+    editProfile(username, email, password, url, token)
       .then(res => res.data.user)
       .then(user => {
         console.log(user);
@@ -31,6 +31,10 @@ const UserProfile = ({history, setUser}) => {
         }
       })
       .catch(err => console.dir(err));
+  }
+
+  if (!username) {
+    return <Redirect to="/articles/"/>
   }
 
   return (
@@ -109,10 +113,11 @@ const UserProfile = ({history, setUser}) => {
         <Button type="submit" children={"Save"}/>
       </form>
     </div>
-
-  );
+  )
+    ;
 };
 
 const mapDispatchToProps = {setUser};
+const mapStateToProps = ({user}) => ({user})
 
-export default connect(null, mapDispatchToProps)(withRouter(UserProfile));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserProfile));

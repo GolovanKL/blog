@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, Redirect } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { connect } from 'react-redux';
-import ModalError from '../ModalError/ModalError';
 
 import BlogApi from "../../blogApi/BlogApi";
 import { errorMessage } from '../../utils/utils'
@@ -11,9 +10,9 @@ import { setUser } from "../../Reducer/store.actions";
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 
-const SignIn = ({setUser, history}) => {
+const SignIn = ({dispatch, history, user}) => {
   const {userSignIn} = new BlogApi();
-  const [error, setError] = useState(false);
+  const [serverError, setServerError] = useState(null);
 
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
 
@@ -21,17 +20,20 @@ const SignIn = ({setUser, history}) => {
     userSignIn(email, password)
       .then(res => res.data.user)
       .then(user => {
-          setUser(user);
+          dispatch(setUser(user));
           sessionStorage.setItem('user', JSON.stringify(user));
           history.push('/');
         }
-      ).catch(err => setError(err.response.data.errors));
+      ).catch(err => setServerError(err.response.data.errors)
+    );
+  }
+
+  if (user.username) {
+    return <Redirect to="/articles/"/>
   }
 
   return (
-
     <div className="signin form _block">
-      {error && <ModalError error={error} setError={setError}/>}
       <h2 className="form__title">Sign In</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="signin__form">
         <div className="controller">
@@ -41,7 +43,7 @@ const SignIn = ({setUser, history}) => {
             control={control}
             rules={{required: "Enter your Email", pattern: /.+@.+\..+/i}}
             render={({field}) =>
-              <FormInput {...field} value={watch("email")} label="Email" error={errors.email}/>
+              <FormInput {...field} value={watch("email")} label="Email" error={errors.email || serverError}/>
             }
           />
           {errors.email && errorMessage(errors.email.type, 'Email')}
@@ -52,10 +54,11 @@ const SignIn = ({setUser, history}) => {
             control={control}
             rules={{required: "Enter your password", minLength: 6, maxLength: 40}}
             render={({field}) =>
-              <FormInput {...field} type="password" value={watch("password")} label="Password" error={errors.password}/>
+              <FormInput {...field} type="password" value={watch("password")} label="Password" error={errors.password || serverError}/>
             }
           />
           {errors.password && errorMessage(errors.password.type, 'password', 6, 40)}
+          {serverError && <span className="form__error">Email or password is invalid.</span>}
         </div>
         <Button type="submit" children={"Sign In"}/>
         <div className="form__subtitle">
@@ -67,6 +70,6 @@ const SignIn = ({setUser, history}) => {
   )
 }
 
-const mapDispatchToProps = {setUser};
+const mapStateToProps = ({user}) => ({user});
 
-export default connect(null, mapDispatchToProps)(withRouter(SignIn));
+export default connect(mapStateToProps)(withRouter(SignIn));
