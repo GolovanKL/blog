@@ -12,7 +12,7 @@ import './Posts.css'
 
 const {getAllArticles} = new BlogApi();
 
-function Posts({setArticles, articles }) {
+function Posts({setArticles, articles, user: {token} }) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -58,8 +58,9 @@ function Posts({setArticles, articles }) {
 
 const mapDispatchToProps = { setArticles, setUser };
 
-const mapStateToProps = ({articles}) => ({
+const mapStateToProps = ({articles, user}) => ({
   articles,
+  user
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Posts);

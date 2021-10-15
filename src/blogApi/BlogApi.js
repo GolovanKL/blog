@@ -1,16 +1,26 @@
 import axios from "axios";
 
+function getToken() {
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  return user.token || null
+}
+
 export default class BlogApi {
 
-  apiBase1 = 'https://conduit.productionready.io/api/';
-  apiBase2 = 'https://realworld-temp-api.herokuapp.com/api/';
+  apiBase1 = 'https://jm-blog-project.herokuapp.com/api/';
+  apiBase2 = 'https://realworld-api.herokuapp.com/api/';
   apiBase3 = 'https://api.realworld.io/api/';
-  apiBase4 = 'https://realworld-api.herokuapp.com/api/';
-  apiBase = this.apiBase3;
-
+  apiBase4 = 'https://conduit.productionready.io/api/';
+  apiBase5 = 'https://conduit-api-realworld.herokuapp.com/api/';
+  apiBase = this.apiBase4;
 
   getAllArticles = (currentPage) => {
-    return axios(`${this.apiBase}articles?limit=5&offset=${currentPage * 5 - 5}`)
+    return axios(`${this.apiBase}articles/?limit=10&offset=${currentPage * 5 - 5}`,
+      {
+        headers: {
+          'authorization': `Token ${getToken()}`
+        }
+      })
       .then(res => res.data)
   }
 
@@ -19,15 +29,15 @@ export default class BlogApi {
   }
 
   favoriteArticle = (slug) => {
-    return axios.post(`${this.apiBase}articles/${slug}/favorite`)
+    return axios.post(`${this.apiBase}articles/${slug}/favorite/`)
   }
 
   unFavoriteArticle = (slug) => {
-    return axios.delete(`${this.apiBase}articles/${slug}/favorite`)
+    return axios.delete(`${this.apiBase}articles/${slug}/favorite/`)
   }
 
   userSignIn = (email, password) => {
-    return axios.post(`${this.apiBase}users/login`, {
+    return axios.post(`${this.apiBase}users/login/`, {
       "user": {
         "email": email,
         "password": password
@@ -36,7 +46,7 @@ export default class BlogApi {
   }
 
   userSignUp = (username, email, password) => {
-    return axios.post(`${this.apiBase}users`, {
+    return axios.post(`${this.apiBase}users/`, {
       "user": {
         "username": username,
         "email": email,
@@ -45,24 +55,35 @@ export default class BlogApi {
     })
   }
 
-  editProfile = (username, email, password, url, token) => {
-    return axios.put(`${this.apiBase}user`, {
-      "user":{
+  editProfile = (username, email, password, url) => {
+    return axios.put(`${this.apiBase}user/`, {
+      "user": {
         "email": email,
         "username": username,
         "password": password,
         "image": url,
-        "token": token,
+      }
+    }, {
+      headers: {
+        'Authorization': `Token ${getToken()}`
       }
     })
   }
 
   makeNewArticle = (title, description, text) => {
-    return axios.post(`${this.apiBase}articles`, {
-      "article": {
-        "title": title,
-        "description": description,
-        "body": text,
+    const data = {
+      article: {
+        title: "How to train your dragon",
+        description: "Ever wonder how?",
+        body: "You have to believe",
+        tagList: []
+      }
+    }
+
+    return axios.post(`${this.apiBase}articles`, data, {
+      headers: {
+        'Authorization': `Token ${getToken()}`,
+        'content-type': 'application/json;charset=UTF-8'
       }
     })
   }
