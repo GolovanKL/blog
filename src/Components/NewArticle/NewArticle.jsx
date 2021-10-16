@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
-import { connect } from "react-redux";
+import {withRouter} from 'react-router-dom'
 
 import uniqid from 'uniqid';
 
@@ -11,18 +11,19 @@ import FormInput from "../FormInput/FormInput";
 import './NewArticle.scss'
 import Button from "../Button/Button";
 
-const NewArticle = ({user: {token}}) => {
+const NewArticle = ({history}) => {
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
   const [tagList, setTagList] = useState([{value: '', id: uniqid()}]);
 
   const {makeNewArticle} = new BlogApi();
 
   const onSubmit = ({title, description, text}) => {
-    makeNewArticle(title, description, text, token)
+    makeNewArticle(title, description, text)
       .then(res => console.log(res))
       .catch(err => console.dir(err))
+      .then(() => history.push('/'))
 
-    console.log(title, description, text, token);
+    console.log(title, description, text);
   }
 
   const addNewTag = () => {
@@ -119,6 +120,4 @@ const NewArticle = ({user: {token}}) => {
   );
 };
 
-const mapStateToProps = ({user}) => ({user})
-
-export default connect(mapStateToProps)(NewArticle);
+export default withRouter(NewArticle);

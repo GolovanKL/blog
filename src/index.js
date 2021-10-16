@@ -6,10 +6,13 @@ import App from './Components/App/App';
 
 import 'antd/dist/antd.css';
 import './index.css';
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
-  <Provider store={store} >
-    <App />
+  <Provider store={store}>
+    <BrowserRouter>
+      <App/>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );

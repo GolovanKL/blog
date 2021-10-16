@@ -10,7 +10,6 @@ import './Header.scss';
 const Header = ({user, logOut, setUser, history}) => {
 
   if (!user.username) {
-    console.log(JSON.parse(sessionStorage.getItem('user')))
     sessionStorage.getItem('user') && setUser(JSON.parse(sessionStorage.getItem('user')));
   }
 

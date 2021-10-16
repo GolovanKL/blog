@@ -8,11 +8,11 @@ import {setArticles, setUser} from "../../Reducer/store.actions";
 
 import Post from "../Post/Post";
 
-import './Posts.css'
+import './MainPage.css'
 
 const {getAllArticles} = new BlogApi();
 
-function Posts({setArticles, articles, user: {token} }) {
+function MainPage({setArticles, articles}) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -30,7 +30,7 @@ function Posts({setArticles, articles, user: {token} }) {
       .catch(err => {
         setLoading(false);
         setError('Не удалось загрузить данные');
-        console.log(err);
+        console.dir(err);
       })
 
   }, [currentPage, setArticles])
@@ -48,7 +48,7 @@ function Posts({setArticles, articles, user: {token} }) {
           current={currentPage}
           showSizeChanger={false}
           total={postsTotal}
-          pageSize={5}
+          pageSize={10}
           onChange={(num) => setCurrentPage(num)}
         />
       </>)}
@@ -58,9 +58,8 @@ function Posts({setArticles, articles, user: {token} }) {
 
 const mapDispatchToProps = { setArticles, setUser };
 
-const mapStateToProps = ({articles, user}) => ({
-  articles,
-  user
+const mapStateToProps = ({articles}) => ({
+  articles
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Posts);
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

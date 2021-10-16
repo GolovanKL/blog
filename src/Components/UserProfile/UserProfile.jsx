@@ -12,15 +12,15 @@ import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 import ModalError from "../ModalError/ModalError";
 
-const UserProfile = ({history, setUser, user: {token, username}}) => {
+const UserProfile = ({history, setUser, user: {username}}) => {
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
   const [error, setError] = useState(false);
 
   const {editProfile} = new BlogApi();
 
   const onSubmit = ({username, email, password, url}) => {
-    console.log(username, email, password, url, token);
-    editProfile(username, email, password, url, token)
+    console.log(username, email, password, url);
+    editProfile(username, email, password, url)
       .then(res => res.data.user)
       .then(user => {
         console.log(user);
@@ -47,7 +47,7 @@ const UserProfile = ({history, setUser, user: {token, username}}) => {
             className="controller"
             name="username"
             control={control}
-            rules={{required: true, minLength: 3, maxLength: 20}}
+            rules={{minLength: 3, maxLength: 20}}
             render={({field}) =>
               <FormInput {...field}
                          value={watch("username")}
@@ -63,7 +63,7 @@ const UserProfile = ({history, setUser, user: {token, username}}) => {
             className="controller"
             name="email"
             control={control}
-            rules={{required: true, pattern: /.+@.+\..+/i}}
+            rules={{pattern: /.+@.+\..+/i}}
             render={({field}) =>
               <FormInput {...field}
                          value={watch("email")}
@@ -79,7 +79,7 @@ const UserProfile = ({history, setUser, user: {token, username}}) => {
             className="controller"
             name="password"
             control={control}
-            rules={{required: true, minLength: 6, maxLength: 40}}
+            rules={{minLength: 6, maxLength: 40}}
             render={({field}) =>
               <FormInput {...field}
                          type="password"
