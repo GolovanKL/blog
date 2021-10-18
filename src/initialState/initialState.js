@@ -4,6 +4,7 @@ const initialState = {
     token: null
   },
   articles: [],
+  postsTotal: 0,
   apiErrors: null
 }
 

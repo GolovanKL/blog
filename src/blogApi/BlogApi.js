@@ -3,6 +3,7 @@ import axios from "axios";
 export default class BlogApi {
 
   apiBase1 = 'https://jm-blog-project.herokuapp.com/api/';
+  apiBase2 = 'https://conduit-api-realworld.herokuapp.com/api/';
   apiBase4 = 'https://conduit.productionready.io/api/';
   apiBase = this.apiBase4;
 
@@ -19,7 +20,7 @@ export default class BlogApi {
   }
 
   getAllArticles = (currentPage) => {
-    return axios(`${this.apiBase}articles/?limit=10&offset=${currentPage * 5 - 5}`, this.authHeader)
+    return axios(`${this.apiBase}articles/?limit=5&offset=${currentPage * 5 - 5}`, this.authHeader)
       .then(res => res.data)
   }
 
@@ -29,7 +30,6 @@ export default class BlogApi {
 
   favoriteArticle = (slug) => {
     return axios.post(`${this.apiBase}articles/${slug}/favorite`,null, this.authHeader)
-      .then(res => console.log(res))
       .catch(err => console.dir(err))
   }
 

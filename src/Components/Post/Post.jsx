@@ -2,14 +2,15 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
-import { format } from 'date-fns'
-import heart from '../../assets/heart.svg'
+import { format } from 'date-fns';
+import heart from '../../assets/heart.svg';
+import favor from '../../assets/favor.png';
 
 import './Post.scss'
 
 const Post = ({post, history}) => {
 
-  const {title, author, description, createdAt, favoritesCount, tagList, slug} = post;
+  const {title, author, description, createdAt, favoritesCount, tagList, slug, favorited} = post;
 
   const date = format(new Date(createdAt), 'MMMM d, y');
 
@@ -21,7 +22,7 @@ const Post = ({post, history}) => {
         <div className="post__title">
           <h5 onClick={onPostClick}>{title}</h5>
           <div className="post__likes likes">
-            <img alt="heart" src={heart}/>
+            <img alt="heart" src={ favorited ? favor : heart}/>
             <div className="likes__count">{favoritesCount}</div>
           </div>
         </div>

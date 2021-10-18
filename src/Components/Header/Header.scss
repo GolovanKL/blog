@@ -12,11 +12,17 @@
   transition: all 0.3s ease 0s;
 
   .header__title {
+    a {
 
-    a:hover {
-      h6 {
-        transition: all 0.3s ease 0s;
-        color: #1890FF;
+      h3 {
+        margin: 0;
+      }
+
+      &:hover {
+        h3 {
+          transition: all 0.3s ease 0s;
+          color: #1890FF;
+        }
       }
     }
   }

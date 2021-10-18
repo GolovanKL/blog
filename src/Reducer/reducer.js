@@ -13,6 +13,11 @@ const reducer = (state = initial, action) => {
         ...state,
         articles: action.payload
       }
+    case actionTypes.SET_TOTAL:
+      return {
+        ...state,
+        postsTotal: action.payload
+      }
     case actionTypes.SET_ERRORS:
       return {
         ...state,
@@ -21,7 +26,8 @@ const reducer = (state = initial, action) => {
     case actionTypes.LOG_OUT:
       return {
         ...state,
-        user: {username: null}
+        user: {username: null},
+        articles: []
       }
     default: return state;
   }

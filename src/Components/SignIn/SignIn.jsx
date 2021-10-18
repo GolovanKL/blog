@@ -3,33 +3,26 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { connect } from 'react-redux';
 
-import BlogApi from '../../blogApi/BlogApi';
 import { errorMessage } from '../../utils/utils'
 
-import { setUser } from "../../Reducer/store.actions";
+import { userSignIn } from "../../Reducer/store.actions";
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 
-const SignIn = ({dispatch, history, user}) => {
-  const {userSignIn} = new BlogApi();
+const SignIn = ({userSignIn, history, user}) => {
   const [serverError, setServerError] = useState(null);
 
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
 
-  const onSubmit = ({email, password}) => {
-    userSignIn(email, password)
-      .then(res => res.data.user)
-      .then(user => {
-          dispatch(setUser(user));
-          sessionStorage.setItem('user', JSON.stringify(user));
-          history.push('/');
-        }
-      ).catch(err => setServerError(err.response.data.errors)
-    );
+  const onSubmit = async ({email, password}) => {
+    await userSignIn(email, password)
+    history.push('/')
+    //   .catch(err => setServerError(err.response.data.errors)
+    // );
   }
 
   if (user.username) {
-    return <Redirect to="/articles/"/>
+    return <Redirect to="/"/>
   }
 
   return (
@@ -72,4 +65,6 @@ const SignIn = ({dispatch, history, user}) => {
 
 const mapStateToProps = ({user}) => ({user});
 
-export default connect(mapStateToProps)(withRouter(SignIn));
+const mapDispatchToProps = {userSignIn}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignIn));

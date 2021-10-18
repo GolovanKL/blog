@@ -28,7 +28,6 @@ const SignUp = ({dispatch, history, user: {username}}) => {
       .then(user => {
         if (user) {
           dispatch(setUser(user));
-          sessionStorage.setItem('user', JSON.stringify(user));
           history.push('/');
         }
       })

@@ -11,11 +11,11 @@ import FormInput from "../FormInput/FormInput";
 import './NewArticle.scss'
 import Button from "../Button/Button";
 
+const {makeNewArticle} = new BlogApi();
+
 const NewArticle = ({history}) => {
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
   const [tagList, setTagList] = useState([{value: '', id: uniqid()}]);
-
-  const {makeNewArticle} = new BlogApi();
 
   const onSubmit = ({title, description, text}) => {
     makeNewArticle(title, description, text)

@@ -7,15 +7,20 @@ import userAvatar from '../../assets/user.png'
 
 import './Header.scss';
 
-const Header = ({user, logOut, setUser, history}) => {
+const Header = ({user, logOut, history, setUser}) => {
 
   if (!user.username) {
-    sessionStorage.getItem('user') && setUser(JSON.parse(sessionStorage.getItem('user')));
+    console.log('Header: no user in store');
+    sessionStorage.getItem('user') &&
+    setUser(JSON.parse(sessionStorage.getItem('user')));
+  } else {
+    console.log('Header: user in store');
+    sessionStorage.setItem('user', JSON.stringify(user));
   }
 
   const onLogOut = () => {
     logOut();
-    history.push("/articles");
+    history.push("/");
   }
 
   const headerAuth =
@@ -52,7 +57,7 @@ const Header = ({user, logOut, setUser, history}) => {
     <header className="header">
       <div className="header__title">
         <Link to={'/'}>
-          <h6>Realworld Blog</h6>
+          <h3>Realworld Blog</h3>
         </Link>
       </div>
       {user.username ? headerUser : headerAuth}

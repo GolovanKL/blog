@@ -3,37 +3,32 @@ import { connect } from "react-redux";
 import uniqid from 'uniqid';
 import { Spin, Alert, Pagination } from 'antd';
 
-import BlogApi from "../../blogApi/BlogApi";
-import {setArticles, setUser} from "../../Reducer/store.actions";
+import {setUser, getAllArticles} from "../../Reducer/store.actions";
 
 import Post from "../Post/Post";
 
 import './MainPage.css'
 
-const {getAllArticles} = new BlogApi();
-
-function MainPage({setArticles, articles}) {
+function MainPage({articles, user, postsTotal, getAllArticles}) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [postsTotal, setPostsTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    setError('');
-    setLoading(true);
-    getAllArticles(currentPage).then(res => {
-        setLoading(false);
-        setArticles(res.articles);
-        setPostsTotal(res.articlesCount);
-      })
-      .catch(err => {
-        setLoading(false);
-        setError('Не удалось загрузить данные');
-        console.dir(err);
-      })
+    if (user.username) {
+      setError('');
+      setLoading(true);
+      getAllArticles(currentPage)
+        .then(() => setLoading(false))
+        .catch(err => {
+          setLoading(false);
+          setError('Не удалось загрузить данные');
+          console.dir(err);
+        })
+    }
 
-  }, [currentPage, setArticles])
+  }, [currentPage, getAllArticles, user])
 
   return (
     <div className="posts__container">
@@ -48,7 +43,7 @@ function MainPage({setArticles, articles}) {
           current={currentPage}
           showSizeChanger={false}
           total={postsTotal}
-          pageSize={10}
+          pageSize={5}
           onChange={(num) => setCurrentPage(num)}
         />
       </>)}
@@ -56,10 +51,12 @@ function MainPage({setArticles, articles}) {
   );
 }
 
-const mapDispatchToProps = { setArticles, setUser };
+const mapDispatchToProps = { getAllArticles, setUser };
 
-const mapStateToProps = ({articles}) => ({
-  articles
+const mapStateToProps = ({articles, user, postsTotal}) => ({
+  articles,
+  user,
+  postsTotal
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
