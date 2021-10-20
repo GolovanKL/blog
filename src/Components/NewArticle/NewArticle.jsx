@@ -4,7 +4,6 @@ import {withRouter} from 'react-router-dom'
 
 import uniqid from 'uniqid';
 
-
 import BlogApi from "../../blogApi/BlogApi";
 import FormInput from "../FormInput/FormInput";
 
@@ -15,19 +14,19 @@ const {makeNewArticle} = new BlogApi();
 
 const NewArticle = ({history}) => {
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
-  const [tagList, setTagList] = useState([{value: '', id: uniqid()}]);
 
-  const onSubmit = ({title, description, text}) => {
-    makeNewArticle(title, description, text)
+  const [tagList, setTagList] = useState([]);
+
+  const onSubmit = ({title, description, text, ...tags}) => {
+    const tagList = Object.values(tags);
+    makeNewArticle(title, description, text, tagList)
       .then(res => console.log(res))
       .catch(err => console.dir(err))
       .then(() => history.push('/'))
-
-    console.log(title, description, text);
   }
 
   const addNewTag = () => {
-    const newTag = {value: '', id: uniqid()}
+    const newTag = '';
     setTagList(prev => [...prev, newTag])
   }
 
@@ -90,13 +89,13 @@ const NewArticle = ({history}) => {
             <label htmlFor="">Tags:</label>
             {!tagList.length && <button className="tags__add" onClick={addNewTag} type="button">Add tag</button>}
             {tagList.map((elem, id) => {
-              const key = `tag-${elem.id}`;
+              const key = `${id}`;
               return (
-                <div key={key} className="tags__input">
+                <div key={uniqid()} className="tags__input">
                   <Controller
                     name={key}
                     control={control}
-                    rules={{required: true}}
+                    rules={{required: false}}
                     render={({field}) =>
                       <FormInput {...field}
                                  value={watch(key)}
@@ -105,9 +104,9 @@ const NewArticle = ({history}) => {
                       />
                     }
                   />
-                  <button className="tags__delete" type="button" onClick={() => deleteTag(elem.id)}>Delete</button>
+                  <button className="button button__red" type="button" onClick={() => deleteTag(elem.id)}>Delete</button>
                   {id === tagList.length - 1 &&
-                  <button className="tags__add" onClick={addNewTag} type="button">Add tag</button>}
+                  <button className="button tags__add" onClick={() => addNewTag()} type="button">Add tag</button>}
                 </div>
               )
             })}

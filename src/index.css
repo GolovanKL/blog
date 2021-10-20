@@ -31,3 +31,6 @@ html, body {
   font-family: Inter, Roboto, sans-serif;
 }
 
+* {
+  transition: all 0.3s ease 0s;
+}

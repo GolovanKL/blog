@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, withRouter, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { connect } from 'react-redux';
 
@@ -9,19 +9,17 @@ import { userSignIn } from "../../Reducer/store.actions";
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 
-const SignIn = ({userSignIn, history, user}) => {
+const SignIn = ({userSignIn, user}) => {
   const [serverError, setServerError] = useState(null);
 
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
 
-  const onSubmit = async ({email, password}) => {
-    await userSignIn(email, password)
-    history.push('/')
-    //   .catch(err => setServerError(err.response.data.errors)
-    // );
+  const onSubmit = ({email, password}) => {
+    userSignIn(email, password)
+      .catch(err => setServerError(err.response.data.errors))
   }
 
-  if (user.username) {
+  if (user.token) {
     return <Redirect to="/"/>
   }
 
@@ -67,4 +65,4 @@ const mapStateToProps = ({user}) => ({user});
 
 const mapDispatchToProps = {userSignIn}
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignIn));
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

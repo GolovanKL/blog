@@ -1,7 +1,6 @@
 
 .wrapper {
   min-height: 100%;
-
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -66,3 +65,31 @@ main {
   }
 }
 
+.button {
+  background: none;
+  cursor: pointer;
+  border: 1px solid;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 5px 17px;
+}
+
+.button__red {
+  color: #F5222D;
+  border-color: #F5222D;
+
+  &:hover {
+    color: white;
+    background-color: #F5222D;
+  }
+}
+
+.button__green {
+  color: #52C41A;
+  border-color: #52C41A;
+
+  &:hover {
+    color: white;
+    background-color: #52C41A;
+  }
+}

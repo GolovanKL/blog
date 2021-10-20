@@ -63,10 +63,17 @@ export default class BlogApi {
     return axios.put(`${this.apiBase}user`, data, this.authHeader)
   }
 
-  makeNewArticle = (title, description, text) => {
+  makeNewArticle = (title, description, text, tagList) => {
     const data = {
-      article: {title, description, body: text, tagList: []}
+      article: {title, description, body: text, tagList: [...tagList]}
     }
     return axios.post(`${this.apiBase}articles`, data, this.authHeader)
   }
+
+  deleteArticle = (slug) => {
+    return axios.delete(`${this.apiBase}articles/${slug}/`, this.authHeader)
+      .catch(err => console.dir(err))
+  }
+
 }
+

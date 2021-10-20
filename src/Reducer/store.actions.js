@@ -71,3 +71,4 @@ export const favoriteArticle = (slug) => (dispatch) => {
     .then(res => console.log(res))
     .catch(err => console.dir(err))
 }
+

@@ -53,5 +53,10 @@
   &.tags__add {
     color: #1890FF;
     border-color: #1890FF;
+
+    &:hover {
+      background-color: #1890FF;
+      color: white;
+    }
   }
 }
