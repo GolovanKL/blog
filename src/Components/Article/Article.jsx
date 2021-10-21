@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {withRouter} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Spin } from 'antd';
 import uniqid from "uniqid";
 import { connect } from "react-redux";
@@ -15,10 +15,14 @@ import heart from "../../assets/heart.svg";
 import favor from '../../assets/favor.png';
 
 import './Article.scss';
+import NewArticle from "../NewArticle/NewArticle";
 
-const Article = ({slug, history, deleteArticle, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
+const Article = ({slug, deleteArticle, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
+  const [edit, setEdit] = useState(false);
+
+  const history = useHistory();
 
   useEffect(() => {
     getOneArticle(slug)
@@ -27,10 +31,9 @@ const Article = ({slug, history, deleteArticle, getOneArticle, favoriteArticle, 
         setLoading(false);
       })
       .catch(() => setLoading(false))
-  }, [slug])
+  }, [slug, getOneArticle])
 
   const {title, description, body, favoritesCount, createdAt, author, tagList, favorited} = article;
-
 
   const date = (createdAt && format(new Date(createdAt), 'MMMM d, y'));
 
@@ -39,6 +42,16 @@ const Article = ({slug, history, deleteArticle, getOneArticle, favoriteArticle, 
   const onDelete = () => {
     deleteArticle(slug)
       .then(() => history.push('/'))
+  }
+
+  const onEdit = () => {
+    setEdit(true);
+  }
+
+  if (edit) {
+    return (
+      <NewArticle article={article}/>
+    )
   }
 
   return (
@@ -81,7 +94,7 @@ const Article = ({slug, history, deleteArticle, getOneArticle, favoriteArticle, 
             <button className="button button__red" onClick={onDelete}>
               Delete
             </button>
-            <button className="button button__green">
+            <button className="button button__green" onClick={onEdit}>
               Edit
             </button>
           </div>
@@ -96,4 +109,4 @@ const Article = ({slug, history, deleteArticle, getOneArticle, favoriteArticle, 
 
 const mapDispatchToProps = {deleteArticle, getOneArticle,favoriteArticle, unFavoriteArticle}
 
-export default connect(null, mapDispatchToProps)(withRouter(Article));
+export default connect(null, mapDispatchToProps)(Article);

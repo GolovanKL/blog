@@ -11,14 +11,28 @@ import './NewArticle.scss';
 
 import {makeNewArticle} from "../../Reducer/api.actions";
 
-const NewArticle = ({history, makeNewArticle}) => {
-  const {control, handleSubmit, watch, formState: {errors}} = useForm();
+const NewArticle = ({history, makeNewArticle, article = null}) => {
+
+  const defaultValues = article ? {
+    title: article.title,
+    description: article.description,
+    body: article.body,
+    tagList: article.tagList
+  } : {
+    title: '',
+    description: '',
+    body: '',
+    tagList: []
+  }
+
+  const {control, handleSubmit, watch, formState: {errors}} = useForm({defaultValues: {...defaultValues}});
 
   const [tagList, setTagList] = useState([]);
 
-  const onSubmit = ({title, description, text, ...tags}) => {
-    const tagList = Object.values(tags);
-    makeNewArticle(title, description, text, tagList)
+  const onSubmit = ({title, description, body, ...tags}) => {
+    console.log('tags', tags);
+    const tagList = Object.values(tags).slice(0, -1);
+    makeNewArticle(title, description, body, tagList)
       .then(() => history.push('/'))
   }
 
@@ -67,16 +81,16 @@ const NewArticle = ({history, makeNewArticle}) => {
           </div>
           <div className="controller">
             <Controller
-              name="text"
+              name="body"
               control={control}
               rules={{required: true, minLength: 3}}
               render={({field}) =>
                 <div className="group">
                   <textarea {...field}
                             className="form-input"
-                            value={watch("text")}
+                            value={watch("body")}
                   />
-                  <label className={`${watch("text") ? 'shrink' : ''} form-input-label`}>Text</label>
+                  <label className={`${watch("body") ? 'shrink' : ''} form-input-label`}>Text</label>
 
                 </div>
               }

@@ -18,10 +18,10 @@ function App() {
     <div className='wrapper'>
         <Header/>
         <main className="main">
-          <Route path="/sign-in" exact component={SignIn}/>
-          <Route path="/sign-up" exact component={SignUp}/>
-          <Route path="/new-article" exact component={NewArticle}/>
-          <Route path="/profile" exact component={UserProfile}/>
+          <Route path="/sign-in"  component={SignIn}/>
+          <Route path="/sign-up"  component={SignUp}/>
+          <Route path="/new-article"  component={NewArticle}/>
+          <Route path="/profile"  component={UserProfile}/>
           <Route path={["/", "/articles/"]} exact component={MainPage}/>
           <Route path="/articles/:slug"
                  render={({match}) => {

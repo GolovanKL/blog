@@ -51,9 +51,9 @@ export const getAllArticles = currentPage => dispatch => {
     })
 }
 
-export const makeNewArticle = (title, description, text, tagList) => () => {
+export const makeNewArticle = (title, description, body, tagList) => () => {
   return axios.post(`${apiBase}articles`,
-    {article: {title, description, body: text, tagList: [...tagList]}},authHeader)
+    {article: {title, description, body, tagList: [...tagList]}},authHeader)
     .catch(err => console.dir(err))
 }
 
