@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import uniqid from 'uniqid';
 import { Spin, Alert, Pagination } from 'antd';
 
-import {setUser, getAllArticles} from "../../Reducer/store.actions";
+import {getAllArticles} from "../../Reducer/store.actions";
 
 import Post from "../Post/Post";
 
@@ -51,7 +51,7 @@ function MainPage({articles, user, postsTotal, getAllArticles}) {
   );
 }
 
-const mapDispatchToProps = { getAllArticles, setUser };
+const mapDispatchToProps = { getAllArticles };
 
 const mapStateToProps = ({articles, user, postsTotal}) => ({
   articles,

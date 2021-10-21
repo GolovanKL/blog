@@ -2,28 +2,27 @@ import React, { useEffect, useState } from 'react';
 import {withRouter} from 'react-router-dom';
 import { Spin } from 'antd';
 import uniqid from "uniqid";
+import { connect } from "react-redux";
 
 import { format } from "date-fns";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 
+import {deleteArticle, getOneArticle, favoriteArticle, unFavoriteArticle} from "../../Reducer/store.actions";
+
 import heart from "../../assets/heart.svg";
 import favor from '../../assets/favor.png';
-import BlogApi from "../../blogApi/BlogApi";
 
 import './Article.scss';
 
-const {getOneArticle, favoriteArticle, unFavoriteArticle, deleteArticle} = new BlogApi();
-
-const Article = ({slug, history}) => {
+const Article = ({slug, history, deleteArticle, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getOneArticle(slug)
       .then(res => {
-        console.log('server post', res.data.article);
         setArticle(res.data.article);
         setLoading(false);
       })
@@ -95,4 +94,6 @@ const Article = ({slug, history}) => {
   )
 }
 
-export default withRouter(Article);
+const mapDispatchToProps = {deleteArticle, getOneArticle,favoriteArticle, unFavoriteArticle}
+
+export default connect(null, mapDispatchToProps)(withRouter(Article));

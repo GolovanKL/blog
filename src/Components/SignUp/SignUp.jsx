@@ -5,16 +5,12 @@ import { Controller, useForm } from "react-hook-form";
 import { withRouter, Redirect } from 'react-router-dom';
 
 import { errorMessage } from '../../utils/utils'
-import BlogApi from "../../blogApi/BlogApi";
-
-import { setUser } from "../../Reducer/store.actions";
+import { userSignUp } from "../../Reducer/store.actions";
 
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 
 import './SignUp.scss';
-
-const {userSignUp} = new BlogApi();
 
 const SignUp = ({dispatch, history, user: {username}}) => {
   const [serverError, setServerError] = useState(false);
@@ -22,18 +18,9 @@ const SignUp = ({dispatch, history, user: {username}}) => {
   const {register, control, handleSubmit, watch, formState: {errors}} = useForm();
 
   const onSubmit = ({username, email, password}) => {
-    console.log(username, email, password)
-    userSignUp(username, email, password)
-      .then(res => res.data.user)
-      .then(user => {
-        if (user) {
-          dispatch(setUser(user));
-          history.push('/');
-        }
-      })
-      .catch(err => {
-        setServerError(err.response.data.errors)
-      });
+    dispatch(userSignUp(username, email, password))
+      .catch(err => setServerError(err.response.data.errors))
+      .then(() => history.push('/'))
   }
 
   if (username) {

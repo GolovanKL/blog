@@ -1,34 +1,22 @@
 import React, { useState } from 'react';
-import { connect } from "react-redux";
-import { Controller, useForm } from "react-hook-form";
+import { connect } from 'react-redux';
+import { Controller, useForm } from 'react-hook-form';
 import { withRouter, Redirect } from 'react-router-dom';
 
-import BlogApi from "../../blogApi/BlogApi";
 import { errorMessage } from "../../utils/utils";
-import { setUser } from "../../Reducer/store.actions";
-
+import { setUser, editProfile } from "../../Reducer/store.actions";
 
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 import ModalError from "../ModalError/ModalError";
 
-const UserProfile = ({history, setUser, user: {username}}) => {
+const UserProfile = ({history, editProfile, user: {username}}) => {
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
   const [error, setError] = useState(false);
 
-  const {editProfile} = new BlogApi();
-
   const onSubmit = ({username, email, password, url}) => {
     editProfile(username, email, password, url)
-      .then(res => res.data.user)
-      .then(user => {
-        if (user) {
-          setUser(user)
-          sessionStorage.setItem('user', JSON.stringify(user));
-        }
-      })
-      .then(() => history.push('/'))
-      .catch(err => console.dir(err));
+      .then(() => history.push('/articles/'))
   }
 
   if (!username) {
@@ -115,7 +103,7 @@ const UserProfile = ({history, setUser, user: {username}}) => {
     ;
 };
 
-const mapDispatchToProps = {setUser};
+const mapDispatchToProps = {setUser, editProfile};
 const mapStateToProps = ({user}) => ({user})
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserProfile));

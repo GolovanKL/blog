@@ -11,11 +11,7 @@ const Header = ({user, logOut, history, setUser}) => {
 
   if (!user.username) {
     console.log('Header: no user in store');
-    sessionStorage.getItem('user') &&
-    setUser(JSON.parse(sessionStorage.getItem('user')));
-  } else {
-    console.log('Header: user in store');
-    sessionStorage.setItem('user', JSON.stringify(user));
+    setUser(user);
   }
 
   const onLogOut = () => {

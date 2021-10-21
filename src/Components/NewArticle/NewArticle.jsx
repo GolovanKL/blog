@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import {withRouter} from 'react-router-dom'
-
+import { connect } from "react-redux";
 import uniqid from 'uniqid';
 
-import BlogApi from "../../blogApi/BlogApi";
+import Button from "../Button/Button";
 import FormInput from "../FormInput/FormInput";
 
-import './NewArticle.scss'
-import Button from "../Button/Button";
+import './NewArticle.scss';
 
-const {makeNewArticle} = new BlogApi();
+import {makeNewArticle} from "../../Reducer/store.actions";
 
-const NewArticle = ({history}) => {
+const NewArticle = ({history, makeNewArticle}) => {
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
 
   const [tagList, setTagList] = useState([]);
@@ -20,8 +19,6 @@ const NewArticle = ({history}) => {
   const onSubmit = ({title, description, text, ...tags}) => {
     const tagList = Object.values(tags);
     makeNewArticle(title, description, text, tagList)
-      .then(res => console.log(res))
-      .catch(err => console.dir(err))
       .then(() => history.push('/'))
   }
 
@@ -119,4 +116,6 @@ const NewArticle = ({history}) => {
   );
 };
 
-export default withRouter(NewArticle);
+const mapDispatchToProps = {makeNewArticle};
+
+export default connect(null, mapDispatchToProps)(withRouter(NewArticle));
