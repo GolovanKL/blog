@@ -2,7 +2,7 @@ import axios from "axios";
 import initialState from "../initialState/initialState";
 import actionTypes from "./actionTypes";
 
-const apiBase = 'https://conduit.productionready.io/api/';
+const apiBase = 'https://jm-blog-project.herokuapp.com/api/';
 
 const getToken = () => {
   const user = JSON.parse(sessionStorage.getItem('user'));

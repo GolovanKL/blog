@@ -5,11 +5,10 @@ export default class BlogApi {
   apiBase1 = 'https://jm-blog-project.herokuapp.com/api/';
   apiBase2 = 'https://conduit-api-realworld.herokuapp.com/api/';
   apiBase4 = 'https://conduit.productionready.io/api/';
-  apiBase = this.apiBase4;
+  apiBase = this.apiBase1;
 
   getToken = () => {
     const user = JSON.parse(sessionStorage.getItem('user'));
-    console.log("Token", user)
     return user ? user.token : null;
   }
 
@@ -38,37 +37,23 @@ export default class BlogApi {
       .catch(err => console.dir(err))
   }
 
-  userSignIn = (email, password) => {
-    return axios.post(`${this.apiBase}users/login`, {
-      "user": {
-        "email": email,
-        "password": password
-      }
-    })
-  }
+  userSignIn = (email, password) =>
+    axios.post(`${this.apiBase}users/login`, {user: {email, password}});
 
-  userSignUp = (username, email, password) => {
-    return axios.post(`${this.apiBase}users`, {
-      "user": {
-        "username": username,
-        "email": email,
-        "password": password
-      }
-    })
-  }
 
-  editProfile = (username, email, password, url) => {
-    const data = { email, username, password, image: url};
+  userSignUp = (username, email, password) =>
+    axios.post(`${this.apiBase}users`, {user: {username, email, password}});
 
-    return axios.put(`${this.apiBase}user`, data, this.authHeader)
-  }
 
-  makeNewArticle = (title, description, text, tagList) => {
-    const data = {
-      article: {title, description, body: text, tagList: [...tagList]}
-    }
-    return axios.post(`${this.apiBase}articles`, data, this.authHeader)
-  }
+  editProfile = (username, email, password, url) =>
+     axios.put(`${this.apiBase}user`, {user: {email, username, password, image: url}}, this.authHeader);
+
+  makeNewArticle = (title, description, text, tagList) =>
+    axios.post(`${this.apiBase}articles`,
+      {article: {title, description, body: text, tagList: [...tagList]}},
+      this.authHeader
+    )
+
 
   deleteArticle = (slug) => {
     return axios.delete(`${this.apiBase}articles/${slug}/`, this.authHeader)

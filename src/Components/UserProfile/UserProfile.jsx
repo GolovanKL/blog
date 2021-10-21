@@ -19,17 +19,15 @@ const UserProfile = ({history, setUser, user: {username}}) => {
   const {editProfile} = new BlogApi();
 
   const onSubmit = ({username, email, password, url}) => {
-    console.log(username, email, password, url);
     editProfile(username, email, password, url)
       .then(res => res.data.user)
       .then(user => {
-        console.log(user);
         if (user) {
           setUser(user)
           sessionStorage.setItem('user', JSON.stringify(user));
-          history.push('/');
         }
       })
+      .then(() => history.push('/'))
       .catch(err => console.dir(err));
   }
 
