@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { errorMessage } from '../../utils/utils'
 
-import { userSignIn } from "../../Reducer/store.actions";
+import { userSignIn } from "../../Reducer/api.actions";
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 

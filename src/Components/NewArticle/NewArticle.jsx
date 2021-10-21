@@ -9,7 +9,7 @@ import FormInput from "../FormInput/FormInput";
 
 import './NewArticle.scss';
 
-import {makeNewArticle} from "../../Reducer/store.actions";
+import {makeNewArticle} from "../../Reducer/api.actions";
 
 const NewArticle = ({history, makeNewArticle}) => {
   const {control, handleSubmit, watch, formState: {errors}} = useForm();

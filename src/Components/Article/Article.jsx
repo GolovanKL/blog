@@ -9,7 +9,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 
-import {deleteArticle, getOneArticle, favoriteArticle, unFavoriteArticle} from "../../Reducer/store.actions";
+import {deleteArticle, getOneArticle, favoriteArticle, unFavoriteArticle} from "../../Reducer/api.actions";
 
 import heart from "../../assets/heart.svg";
 import favor from '../../assets/favor.png';

@@ -4,7 +4,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { withRouter, Redirect } from 'react-router-dom';
 
 import { errorMessage } from "../../utils/utils";
-import { setUser, editProfile } from "../../Reducer/store.actions";
+import { setUser } from "../../Reducer/store.actions";
+import {editProfile} from '../../Reducer/api.actions';
 
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";

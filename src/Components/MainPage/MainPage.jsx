@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import uniqid from 'uniqid';
 import { Spin, Alert, Pagination } from 'antd';
 
-import {getAllArticles} from "../../Reducer/store.actions";
+import {getAllArticles} from "../../Reducer/api.actions";
 
 import Post from "../Post/Post";
 

@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { withRouter, Redirect } from 'react-router-dom';
 
 import { errorMessage } from '../../utils/utils'
-import { userSignUp } from "../../Reducer/store.actions";
+import { userSignUp } from "../../Reducer/api.actions";
 
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
