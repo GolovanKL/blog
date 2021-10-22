@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useForm, Controller } from "react-hook-form";
+import React  from 'react';
+import { useForm, Controller, useFieldArray } from "react-hook-form";
 import {useHistory} from 'react-router-dom'
 import { useDispatch } from "react-redux";
 
@@ -26,14 +26,16 @@ const NewArticle = ({article = null}) => {
 
   const {control, handleSubmit, watch, formState: {errors}} = useForm({defaultValues: {...defaultValues}});
 
-  const [tagList, setTagList] = useState([]);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "tag"
+  });
 
   const history = useHistory();
   const dispatch = useDispatch();
 
   const onSubmit = ({title, description, body, ...tags}) => {
     const tagList = Object.values(tags).slice(0, -1);
-    console.log(tags);
     if (article) {
       dispatch(editArticle(article.slug, title, description, body, tagList))
         .then(() => history.push('/'))
@@ -41,16 +43,6 @@ const NewArticle = ({article = null}) => {
       dispatch(makeNewArticle(title, description, body, tagList))
         .then(() => history.push('/'))
     }
-
-  }
-
-  const addNewTag = () => {
-    const newTag = '';
-    setTagList(prev => [...prev, newTag])
-  }
-
-  const deleteTag = (id) => {
-    setTagList(prev => prev.filter(elem => elem.id !== id))
   }
 
   return (
@@ -106,29 +98,30 @@ const NewArticle = ({article = null}) => {
           </div>
           <div className="tags">
             <label htmlFor="">Tags:</label>
-            {!tagList.length && <button className="tags__add" onClick={addNewTag} type="button">Add tag</button>}
-            {tagList.map((elem, id) => {
-              const name = `${id}`;
+            {!fields.length && <button className="tags__add" onClick={() => append({tagInput:''})} type="button">Add tag</button>}
+            {fields.map((field, index) => {
+              const name = `tag.${index}`;
               return (
-                <div key={name} className="tags__input">
+                <div key={field.id} className="tags__input">
                   <Controller
-                    name={name}
+                    name={`tag.${index}.primary`}
                     control={control}
                     rules={{required: false}}
                     render={({field}) =>
                       <FormInput {...field}
-                                 value={watch(name)}
+                                 name={`tag.${index}.tagInput`}
                                  placeholder="Tag"
                                  error={errors[name]}
                       />
                     }
                   />
-                  <button className="button button__red" type="button" onClick={() => deleteTag(elem.id)}>Delete</button>
-                  {id === tagList.length - 1 &&
-                  <button className="button tags__add" onClick={() => addNewTag()} type="button">Add tag</button>}
+                  <button className="button button__red" type="button" onClick={() => remove(index)}>Delete</button>
+                  {index === fields.length - 1 &&
+                  <button className="button tags__add" onClick={() => append({tagInput:''})} type="button">Add tag</button>}
                 </div>
-              )
-            })}
+
+              )})
+            }
           </div>
           <Button type="submit" children={"Send"}/>
         </form>
