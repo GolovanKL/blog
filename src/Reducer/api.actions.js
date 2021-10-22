@@ -30,8 +30,8 @@ export const  userSignUp = (username, email, password) => dispatch => {
     })
 }
 
-export const editProfile = (username, email, password, url) => dispatch => {
-  return axios.put(`${apiBase}user`, {user: {email, username, password, image: url}}, authHeader)
+export const editProfile = (username, email, password, image) => dispatch => {
+  return axios.put(`${apiBase}user`, {user: {email, username, password, image}}, authHeader)
     .then(res => res.data.user)
     .then(user => {
       if (user) dispatch(setUser(user))
@@ -61,6 +61,12 @@ export const getOneArticle = slug => () => axios(`${apiBase}articles/${slug}`);
 
 export const deleteArticle = slug => () => {
   return axios.delete(`${apiBase}articles/${slug}/`, authHeader)
+    .catch(err => console.dir(err))
+}
+
+export const editArticle = (slug, title, description, body, tagList) => () => {
+  return axios.put(`${apiBase}articles/${slug}/`,
+    {slug, article: {title, description, body, tagList: [...tagList]}}, authHeader)
     .catch(err => console.dir(err))
 }
 

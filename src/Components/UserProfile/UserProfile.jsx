@@ -11,12 +11,13 @@ import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 import ModalError from "../ModalError/ModalError";
 
-const UserProfile = ({history, editProfile, user: {username}}) => {
-  const {control, handleSubmit, watch, formState: {errors}} = useForm();
+const UserProfile = ({history, editProfile, user: {username, email, image}}) => {
+
+  const {control, handleSubmit, watch, formState: {errors}} = useForm({defaultValues: {username, email, image}});
   const [error, setError] = useState(false);
 
-  const onSubmit = ({username, email, password, url}) => {
-    editProfile(username, email, password, url)
+  const onSubmit = ({username, email, password, image}) => {
+    editProfile(username, email, password, image)
       .then(() => history.push('/articles/'))
   }
 
@@ -81,7 +82,7 @@ const UserProfile = ({history, editProfile, user: {username}}) => {
         <div className="controller">
           <Controller
             className="controller"
-            name="avatar"
+            name="image"
             control={control}
             rules={{
               required: false,
@@ -89,9 +90,9 @@ const UserProfile = ({history, editProfile, user: {username}}) => {
             render={({field}) =>
               <FormInput {...field}
                          type="avatar"
-                         value={watch("avatar")}
+                         value={watch("image")}
                          label="Avatar image (url)"
-                         error={errors.avatar}
+                         error={errors.image}
               />
             }
           />

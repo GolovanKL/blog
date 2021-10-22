@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
-import {withRouter} from 'react-router-dom'
-import { connect } from "react-redux";
-import uniqid from 'uniqid';
+import {useHistory} from 'react-router-dom'
+import { useDispatch } from "react-redux";
 
 import Button from "../Button/Button";
 import FormInput from "../FormInput/FormInput";
 
 import './NewArticle.scss';
 
-import {makeNewArticle} from "../../Reducer/api.actions";
+import {makeNewArticle, editArticle} from "../../Reducer/api.actions";
 
-const NewArticle = ({history, makeNewArticle, article = null}) => {
+const NewArticle = ({article = null}) => {
 
   const defaultValues = article ? {
     title: article.title,
@@ -29,11 +28,20 @@ const NewArticle = ({history, makeNewArticle, article = null}) => {
 
   const [tagList, setTagList] = useState([]);
 
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const onSubmit = ({title, description, body, ...tags}) => {
-    console.log('tags', tags);
     const tagList = Object.values(tags).slice(0, -1);
-    makeNewArticle(title, description, body, tagList)
-      .then(() => history.push('/'))
+    console.log(tags);
+    if (article) {
+      dispatch(editArticle(article.slug, title, description, body, tagList))
+        .then(() => history.push('/'))
+    } else {
+      dispatch(makeNewArticle(title, description, body, tagList))
+        .then(() => history.push('/'))
+    }
+
   }
 
   const addNewTag = () => {
@@ -100,18 +108,17 @@ const NewArticle = ({history, makeNewArticle, article = null}) => {
             <label htmlFor="">Tags:</label>
             {!tagList.length && <button className="tags__add" onClick={addNewTag} type="button">Add tag</button>}
             {tagList.map((elem, id) => {
-              const key = `${id}`;
               return (
-                <div key={uniqid()} className="tags__input">
+                <div key={id} className="tags__input">
                   <Controller
-                    name={key}
+                    name={id}
                     control={control}
                     rules={{required: false}}
                     render={({field}) =>
                       <FormInput {...field}
-                                 value={watch(key)}
+                                 value={watch(id)}
                                  placeholder="Tag"
-                                 error={errors[key]}
+                                 error={errors[id]}
                       />
                     }
                   />
@@ -130,6 +137,5 @@ const NewArticle = ({history, makeNewArticle, article = null}) => {
   );
 };
 
-const mapDispatchToProps = {makeNewArticle};
 
-export default connect(null, mapDispatchToProps)(withRouter(NewArticle));
+export default NewArticle;
