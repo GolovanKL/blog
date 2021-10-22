@@ -108,17 +108,18 @@ const NewArticle = ({article = null}) => {
             <label htmlFor="">Tags:</label>
             {!tagList.length && <button className="tags__add" onClick={addNewTag} type="button">Add tag</button>}
             {tagList.map((elem, id) => {
+              const name = `${id}`;
               return (
-                <div key={id} className="tags__input">
+                <div key={name} className="tags__input">
                   <Controller
-                    name={id}
+                    name={name}
                     control={control}
                     rules={{required: false}}
                     render={({field}) =>
                       <FormInput {...field}
-                                 value={watch(id)}
+                                 value={watch(name)}
                                  placeholder="Tag"
-                                 error={errors[id]}
+                                 error={errors[name]}
                       />
                     }
                   />
