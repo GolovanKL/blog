@@ -10,9 +10,11 @@ const getToken = () => {
   return user ? user.token : null;
 }
 
-const authHeader = {
-  headers: {
-    "authorization": `Token ${getToken()}`
+const makeAuthHeader = () => {
+  return {
+    headers: {
+      "authorization": `Token ${getToken()}`
+    }
   }
 }
 
@@ -31,7 +33,7 @@ export const  userSignUp = (username, email, password) => dispatch => {
 }
 
 export const editProfile = (username, email, password, image) => dispatch => {
-  return axios.put(`${apiBase}user`, {user: {email, username, password, image}}, authHeader)
+  return axios.put(`${apiBase}user`, {user: {email, username, password, image}}, makeAuthHeader())
     .then(res => res.data.user)
     .then(user => {
       if (user) dispatch(setUser(user))
@@ -42,7 +44,8 @@ export const editProfile = (username, email, password, image) => dispatch => {
 }
 
 export const getAllArticles = currentPage => dispatch => {
-  return axios(`${apiBase}articles/?limit=5&offset=${currentPage * 5 - 5}`, authHeader)
+
+  return axios(`${apiBase}articles/?limit=5&offset=${currentPage * 5 - 5}`, makeAuthHeader())
     .then(res => res.data)
     .then(data => {
       dispatch(setArticles(data.articles));
@@ -52,29 +55,29 @@ export const getAllArticles = currentPage => dispatch => {
 
 export const makeNewArticle = (title, description, body, tagList) => () => {
   return axios.post(`${apiBase}articles`,
-    {article: {title, description, body, tagList: [...tagList]}},authHeader)
+    {article: {title, description, body, tagList: [...tagList]}}, makeAuthHeader())
     .catch(err => console.dir(err))
 }
 
 export const getOneArticle = slug => () => axios(`${apiBase}articles/${slug}`);
 
 export const deleteArticle = slug => () => {
-  return axios.delete(`${apiBase}articles/${slug}/`, authHeader)
+  return axios.delete(`${apiBase}articles/${slug}/`, makeAuthHeader())
     .catch(err => console.dir(err))
 }
 
 export const editArticle = (slug, title, description, body, tagList) => () => {
   return axios.put(`${apiBase}articles/${slug}/`,
-    {slug, article: {title, description, body, tagList: [...tagList]}}, authHeader)
+    {slug, article: {title, description, body, tagList: [...tagList]}}, makeAuthHeader())
     .catch(err => console.dir(err))
 }
 
 export const favoriteArticle = slug => () => {
-  return axios.post(`${apiBase}articles/${slug}/favorite`,null, authHeader)
+  return axios.post(`${apiBase}articles/${slug}/favorite`,null, makeAuthHeader())
     .catch(err => console.dir(err))
 }
 
 export const unFavoriteArticle = slug => () => {
-  return axios.delete(`${apiBase}articles/${slug}/favorite`, authHeader)
+  return axios.delete(`${apiBase}articles/${slug}/favorite`, makeAuthHeader())
     .catch(err => console.dir(err))
 }

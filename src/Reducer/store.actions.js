@@ -2,11 +2,6 @@ import initialState from "../initialState/initialState";
 import actionTypes from "./actionTypes";
 
 export const setUser = user => {
-  if (!user.username) {
-   user = JSON.parse(sessionStorage.getItem('user')) || initialState.user;
-  } else {
-    sessionStorage.setItem('user', JSON.stringify(user));
-  }
   return {
     type: actionTypes.SET_USER,
     payload: user

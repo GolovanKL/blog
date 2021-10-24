@@ -3,15 +3,18 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { logOut, setUser } from "../../Reducer/store.actions";
-import userAvatar from '../../assets/user.png'
+import userAvatar from '../../assets/user.png';
+import initialState from "../../initialState/initialState";
 
 import './Header.scss';
 
 const Header = ({user, logOut, history, setUser}) => {
 
   if (!user.username) {
-    console.log('Header: no user in store');
+    user = JSON.parse(sessionStorage.getItem('user')) || initialState.user;
     setUser(user);
+  } else {
+    sessionStorage.setItem('user', JSON.stringify(user));
   }
 
   const onLogOut = () => {

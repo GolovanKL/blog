@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { CookiesProvider } from 'react-cookie';
 import store from './Reducer/store';
 import App from './Components/App/App';
 
@@ -11,7 +12,9 @@ import { BrowserRouter } from "react-router-dom";
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App/>
+      <CookiesProvider>
+        <App/>
+      </CookiesProvider>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')
