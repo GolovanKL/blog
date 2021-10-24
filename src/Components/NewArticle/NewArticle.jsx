@@ -1,6 +1,6 @@
-import React  from 'react';
+import React from 'react';
 import { useForm, Controller, useFieldArray } from "react-hook-form";
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useDispatch } from "react-redux";
 
 import Button from "../Button/Button";
@@ -8,7 +8,7 @@ import FormInput from "../FormInput/FormInput";
 
 import './NewArticle.scss';
 
-import {makeNewArticle, editArticle} from "../../Reducer/api.actions";
+import { makeNewArticle, editArticle } from "../../Reducer/api.actions";
 
 const NewArticle = ({article = null}) => {
 
@@ -16,37 +16,39 @@ const NewArticle = ({article = null}) => {
     title: article.title,
     description: article.description,
     body: article.body,
-    tagList: article.tagList
+    tag: article.tagList
   } : {
     title: '',
     description: '',
     body: '',
-    tagList: []
+    tag: []
   }
 
   const {control, handleSubmit, watch, formState: {errors}} = useForm({defaultValues: {...defaultValues}});
 
-  const { fields, append, remove } = useFieldArray({
+  const {fields, append, remove} = useFieldArray({
     control,
     name: "tag"
+  });
+
+  const watchFieldArray = watch("tag");
+  const controlledFields = fields.map((field, index) => {
+    return {
+      ...field,
+      ...watchFieldArray[index]
+    };
   });
 
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const onSubmit = ({title, description, body, ...tags}) => {
-    const tagList = Object.values(tags).slice(0, -1);
-    if (article) {
-      dispatch(editArticle(article.slug, title, description, body, tagList))
-        .then(() => history.push('/'))
-    } else {
-      dispatch(makeNewArticle(title, description, body, tagList))
-        .then(() => history.push('/'))
-    }
+  const onSubmit = ({title, description, body, tag}) => {
+    if (article) dispatch(editArticle(article.slug, title, description, body, tag))
+    else dispatch(makeNewArticle(title, description, body, tag))
+    history.push('./');
   }
 
   return (
-
     <div className="new-article _block">
       <div className="new-article_body">
         <div className="new-article__title"><h5>Create new article</h5></div>
@@ -98,29 +100,29 @@ const NewArticle = ({article = null}) => {
           </div>
           <div className="tags">
             <label htmlFor="">Tags:</label>
-            {!fields.length && <button className="tags__add" onClick={() => append({tagInput:''})} type="button">Add tag</button>}
-            {fields.map((field, index) => {
-              const name = `tag.${index}`;
+            {!controlledFields.length &&
+            <button className="tags__add" onClick={() => append({})} type="button">Add tag</button>}
+            {controlledFields.map((field, index) => {
               return (
                 <div key={field.id} className="tags__input">
                   <Controller
-                    name={`tag.${index}.primary`}
+                    name={`tag.${index}`}
                     control={control}
                     rules={{required: false}}
                     render={({field}) =>
                       <FormInput {...field}
                                  name={`tag.${index}.tagInput`}
                                  placeholder="Tag"
-                                 error={errors[name]}
                       />
                     }
                   />
                   <button className="button button__red" type="button" onClick={() => remove(index)}>Delete</button>
                   {index === fields.length - 1 &&
-                  <button className="button tags__add" onClick={() => append({tagInput:''})} type="button">Add tag</button>}
+                  <button className="button tags__add" onClick={() => append({})} type="button">Add tag</button>}
                 </div>
 
-              )})
+              )
+            })
             }
           </div>
           <Button type="submit" children={"Send"}/>

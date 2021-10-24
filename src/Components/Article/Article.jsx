@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Spin } from 'antd';
 import uniqid from "uniqid";
 import { connect } from "react-redux";
@@ -9,20 +8,22 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 
-import {deleteArticle, getOneArticle, favoriteArticle, unFavoriteArticle} from "../../Reducer/api.actions";
+import {getOneArticle, favoriteArticle, unFavoriteArticle} from "../../Reducer/api.actions";
 
 import heart from "../../assets/heart.svg";
 import favor from '../../assets/favor.png';
 
 import './Article.scss';
 import NewArticle from "../NewArticle/NewArticle";
+import ModalDelete from "../ModalDelete/ModalDelete";
 
-const Article = ({slug, deleteArticle, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
+const Article = ({slug, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
   const [edit, setEdit] = useState(false);
 
-  const history = useHistory();
+
+  const [isDelete, setIsDelete] = useState(false);
 
   useEffect(() => {
     getOneArticle(slug)
@@ -40,8 +41,7 @@ const Article = ({slug, deleteArticle, getOneArticle, favoriteArticle, unFavorit
   const onFavorite = () => favorited ? unFavoriteArticle(slug) : favoriteArticle(slug)
 
   const onDelete = () => {
-    deleteArticle(slug)
-      .then(() => history.push('/'))
+    setIsDelete(true);
   }
 
   const onEdit = () => {
@@ -91,6 +91,7 @@ const Article = ({slug, deleteArticle, getOneArticle, favoriteArticle, unFavorit
             </div>
           </div>
           <div className="post__buttons">
+            { isDelete && <ModalDelete slug={slug} setIsDelete={setIsDelete}/>}
             <button className="button button__red" onClick={onDelete}>
               Delete
             </button>
@@ -107,6 +108,6 @@ const Article = ({slug, deleteArticle, getOneArticle, favoriteArticle, unFavorit
   )
 }
 
-const mapDispatchToProps = {deleteArticle, getOneArticle,favoriteArticle, unFavoriteArticle}
+const mapDispatchToProps = {getOneArticle,favoriteArticle, unFavoriteArticle}
 
 export default connect(null, mapDispatchToProps)(Article);

@@ -2,7 +2,6 @@ import initialState from "../initialState/initialState";
 import actionTypes from "./actionTypes";
 
 export const setUser = user => {
-  console.log(user)
   if (!user.username) {
    user = JSON.parse(sessionStorage.getItem('user')) || initialState.user;
   } else {

@@ -45,7 +45,6 @@ export const getAllArticles = currentPage => dispatch => {
   return axios(`${apiBase}articles/?limit=5&offset=${currentPage * 5 - 5}`, authHeader)
     .then(res => res.data)
     .then(data => {
-      console.log('getAllArticles:',data)
       dispatch(setArticles(data.articles));
       dispatch(setPostsTotal(data.articlesCount));
     })
