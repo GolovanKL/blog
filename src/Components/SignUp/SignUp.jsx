@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-import { withRouter, Redirect } from 'react-router-dom';
+import { useHistory ,Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { errorMessage } from '../../utils/utils'
@@ -13,14 +12,10 @@ import Button from "../Button/Button";
 
 import './SignUp.scss';
 
-const SignUp = ({dispatch, history, user: {username}}) => {
-  SignUp.propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    history: PropTypes.object.isRequired,
-    username: PropTypes.string.isRequired
-  }
+const SignUp = ({dispatch, user}) => {
+  const [serverError, setServerError] = useState(false);
 
-    const [serverError, setServerError] = useState(false);
+  const history = useHistory();
 
   const {register, control, handleSubmit, watch, formState: {errors}} = useForm();
 
@@ -30,8 +25,8 @@ const SignUp = ({dispatch, history, user: {username}}) => {
       .then(() => history.push('/'))
   }
 
-  if (username) {
-    return <Redirect to="/articles" />
+  if (user.username) {
+    return <Redirect to="/articles"/>
   }
 
   return (
@@ -111,7 +106,7 @@ const SignUp = ({dispatch, history, user: {username}}) => {
           {errors.repeatPassword && errorMessage(errors.repeatPassword.type, 'password')}
         </div>
         <div className="delimiter"/>
-        <div className={`controller checkbox`}>
+        <div className="controller checkbox">
           <input
             type="checkbox"
             id="checkbox"
@@ -121,10 +116,10 @@ const SignUp = ({dispatch, history, user: {username}}) => {
             I agree to the processing of my personal information
           </label>
         </div>
-        <Button type="submit" children={"Create"}/>
+        <Button type="submit" >Create</Button>
         <div className="form__subtitle">
           Already have an account?
-          <Link to={'/sign-in'}>Sign In.</Link>
+          <Link to='/sign-in'>Sign In.</Link>
         </div>
       </form>
     </div>
@@ -133,4 +128,15 @@ const SignUp = ({dispatch, history, user: {username}}) => {
 
 const mapStateToProps = ({user}) => ({user})
 
-export default connect(mapStateToProps)(withRouter(SignUp));
+export default connect(mapStateToProps)(SignUp);
+
+SignUp.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
+}

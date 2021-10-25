@@ -11,18 +11,6 @@ import Post from "../Post/Post";
 import './MainPage.css'
 
 function MainPage({articles, user, postsTotal, getAllArticles}) {
-  MainPage.propTypes = {
-    user: PropTypes.shape({
-      email: PropTypes.string,
-      username: PropTypes.string,
-      bio: PropTypes.string,
-      image: PropTypes.string,
-      token: PropTypes.string,
-    }).isRequired,
-    getAllArticles: PropTypes.func.isRequired,
-    articles: PropTypes.array.isRequired,
-    postsTotal: PropTypes.number.isRequired
-  }
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -73,3 +61,16 @@ const mapStateToProps = ({articles, user, postsTotal}) => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
+
+MainPage.propTypes = {
+  user: PropTypes.shape({
+    email: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
+  getAllArticles: PropTypes.func.isRequired,
+  articles: PropTypes.arrayOf(PropTypes.object).isRequired,
+  postsTotal: PropTypes.number.isRequired
+}

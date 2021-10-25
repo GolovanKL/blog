@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
 import { format } from 'date-fns';
@@ -9,13 +9,11 @@ import favor from '../../assets/favor.png';
 
 import './Post.scss'
 
-const Post = ({post, history}) => {
-  Post.propTypes = {
-    post: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
-  }
+const Post = ({post}) => {
 
   const {title, author, description, createdAt, favoritesCount, tagList, slug, favorited} = post;
+
+  const history = useHistory();
 
   const date = format(new Date(createdAt), 'MMMM d, y');
 
@@ -51,16 +49,22 @@ const Post = ({post, history}) => {
   );
 };
 
-export default withRouter(Post);
+export default Post;
 
 Post.propTypes = {
   post: PropTypes.shape({
-    author: PropTypes.object,
+    author: PropTypes.shape({
+      "username": PropTypes.string,
+      "bio": PropTypes.string,
+      "image": PropTypes.string,
+    }),
     body: PropTypes.string,
+    description: PropTypes.string,
     createdAt: PropTypes.string,
     favoritesCount: PropTypes.number,
     title: PropTypes.string,
     tagList: PropTypes.arrayOf(PropTypes.string),
     slug: PropTypes.string,
+    favorited: PropTypes.bool.isRequired
   }).isRequired,
 }

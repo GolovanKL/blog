@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
-import { withRouter, Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 
 import { errorMessage } from "../../utils/utils";
 import { setUser } from "../../Reducer/store.actions";
-import {editProfile} from '../../Reducer/api.actions';
+import { editProfile } from '../../Reducer/api.actions';
 
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 import ModalError from "../ModalError/ModalError";
 
-const UserProfile = ({history, editProfile, user: {username, email, image}}) => {
-  UserProfile.propTypes = {
-    history: PropTypes.object.isRequired,
-    editProfile: PropTypes.func.isRequired,
-    email: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-  }
+const UserProfile = ({editProfile, user}) => {
 
-    const {control, handleSubmit, watch, formState: {errors}} = useForm({defaultValues: {username, email, image}});
+  const {username, email, image} = user;
+  const {control, handleSubmit, watch, formState: {errors}} = useForm({defaultValues: {username, email, image}});
   const [error, setError] = useState(false);
+  const history = useHistory();
 
   const onSubmit = ({username, email, password, image}) => {
     editProfile(username, email, password, image)
@@ -106,7 +102,7 @@ const UserProfile = ({history, editProfile, user: {username, email, image}}) => 
           />
           {errors.repeatPassword && errorMessage(errors.repeatPassword.type, 'password')}
         </div>
-        <Button type="submit" children={"Save"}/>
+        <Button type="submit">Save</Button>
       </form>
     </div>
   )
@@ -116,4 +112,15 @@ const UserProfile = ({history, editProfile, user: {username, email, image}}) => 
 const mapDispatchToProps = {setUser, editProfile};
 const mapStateToProps = ({user}) => ({user})
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserProfile));
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+
+UserProfile.propTypes = {
+  editProfile: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
+}

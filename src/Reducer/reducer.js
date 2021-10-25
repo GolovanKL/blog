@@ -29,6 +29,11 @@ const reducer = (state = initial, action) => {
         user: {username: null},
         articles: []
       }
+    case actionTypes.SET_LOADING:
+      return {
+        ...state,
+        loading: !state.loading
+      }
     default: return state;
   }
 }

@@ -5,7 +5,7 @@ import './Button.scss'
 
 function Button({children, ...props}) {
   return (
-    <button className={`custom-button`}
+    <button type="button" className="custom-button"
             {...props}>
       {children}
     </button>

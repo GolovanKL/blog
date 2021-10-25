@@ -9,7 +9,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 
-import {getOneArticle, favoriteArticle, unFavoriteArticle} from "../../Reducer/api.actions";
+import { getOneArticle, favoriteArticle, unFavoriteArticle } from "../../Reducer/api.actions";
 
 import heart from "../../assets/heart.svg";
 import favor from '../../assets/favor.png';
@@ -24,8 +24,6 @@ const Article = ({slug, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
   const [edit, setEdit] = useState(false);
-
-
   const [isDelete, setIsDelete] = useState(false);
 
   useEffect(() => {
@@ -43,14 +41,6 @@ const Article = ({slug, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
 
   const onFavorite = () => favorited ? unFavoriteArticle(slug) : favoriteArticle(slug)
 
-  const onDelete = () => {
-    setIsDelete(true);
-  }
-
-  const onEdit = () => {
-    setEdit(true);
-  }
-
   if (edit) {
     return (
       <NewArticle article={article}/>
@@ -59,7 +49,7 @@ const Article = ({slug, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
 
   return (
     <>
-      {loading && <Spin size={"large"}/>}
+      {loading && <Spin size="large"/>}
       {!loading &&
       <div className="post">
         <article className="post__article">
@@ -67,6 +57,7 @@ const Article = ({slug, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
             <h5>{title}</h5>
             <div className="post__likes likes">
               <button
+                type="button"
                 className="post__favorite"
                 title="Add to favorites"
                 onClick={() => onFavorite().then(res => setArticle(res.data.article))}
@@ -94,24 +85,27 @@ const Article = ({slug, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
             </div>
           </div>
           <div className="post__buttons">
-            { isDelete && <ModalDelete slug={slug} setIsDelete={setIsDelete}/>}
-            <button className="button button__red" onClick={onDelete}>
+            {isDelete && <ModalDelete slug={slug} setIsDelete={setIsDelete}/>}
+            <button type='button' className="button button__red" onClick={() => setIsDelete(true)}>
               Delete
             </button>
-            <button className="button button__green" onClick={onEdit}>
+            <button type='button' className="button button__green" onClick={() => setEdit(true)}>
               Edit
             </button>
           </div>
         </div>
-        <ReactMarkdown children={body} className='article__body' rehypePlugins={[rehypeRaw]}
-                       remarkPlugins={[remarkGfm]}/>
+        <ReactMarkdown className='article__body' rehypePlugins={[rehypeRaw]}
+                       remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
       </div>
       }
     </>
   )
 }
 
-const mapDispatchToProps = {getOneArticle,favoriteArticle, unFavoriteArticle}
+const mapDispatchToProps =
+  {
+    getOneArticle, favoriteArticle, unFavoriteArticle
+  }
 
 export default connect(null, mapDispatchToProps)(Article);
 
@@ -119,5 +113,5 @@ Article.propTypes = {
   slug: PropTypes.string.isRequired,
   getOneArticle: PropTypes.func.isRequired,
   favoriteArticle: PropTypes.func.isRequired,
-  unFavoriteArticle: PropTypes.func.isRequired,
+  unFavoriteArticle: PropTypes.func.isRequired
 };

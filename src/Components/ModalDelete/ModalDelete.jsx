@@ -7,20 +7,13 @@ import mark from '../../assets/warning.png';
 import arrow from '../../assets/arrow.png';
 import classes from './ModalDelete.module.scss';
 
-import {deleteArticle} from "../../Reducer/api.actions";
+import { deleteArticle } from "../../Reducer/api.actions";
 
 
 const ModalDelete = ({slug, setIsDelete}) => {
-  ModalDelete.propTypes = {
-    slug: PropTypes.string.isRequired,
-    setIsDelete: PropTypes.func.isRequired
-  }
 
-
-    const history = useHistory();
+  const history = useHistory();
   const dispatch = useDispatch();
-
-  const clickNo = () => setIsDelete(false);
 
   const clickYes = () => {
     dispatch(deleteArticle(slug));
@@ -35,11 +28,16 @@ const ModalDelete = ({slug, setIsDelete}) => {
         <span>Are you sure to delete this article?</span>
       </div>
       <div className={classes.buttons}>
-        <button className="button button__red" onClick={clickNo}>No</button>
-        <button className="button button__green" onClick={clickYes}>Yes</button>
+        <button type="button" className="button button__red" onClick={() => setIsDelete(false)}>No</button>
+        <button type="button" className="button button__green" onClick={clickYes}>Yes</button>
       </div>
     </div>
   );
 };
 
 export default ModalDelete;
+
+ModalDelete.propTypes = {
+  slug: PropTypes.string.isRequired,
+  setIsDelete: PropTypes.func.isRequired
+}

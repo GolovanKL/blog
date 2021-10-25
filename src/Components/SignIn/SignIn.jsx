@@ -3,6 +3,8 @@ import { Link, Redirect } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Spin } from 'antd';
+
 
 import { errorMessage } from '../../utils/utils'
 
@@ -10,17 +12,7 @@ import { userSignIn } from "../../Reducer/api.actions";
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 
-const SignIn = ({userSignIn, user}) => {
-  SignIn.propTypes = {
-    user: PropTypes.shape({
-      email: PropTypes.string,
-      username: PropTypes.string,
-      bio: PropTypes.string,
-      image: PropTypes.string,
-      token: PropTypes.string,
-    }).isRequired,
-    userSignIn: PropTypes.func.isRequired,
-  }
+const SignIn = ({userSignIn, user, loading}) => {
 
   const [serverError, setServerError] = useState(null);
 
@@ -38,6 +30,7 @@ const SignIn = ({userSignIn, user}) => {
   return (
     <div className="signin form _block">
       <h2 className="form__title">Sign In</h2>
+      {loading ? <Spin size='small'/> : null }
       <form onSubmit={handleSubmit(onSubmit)} className="signin__form">
         <div className="controller">
           <Controller
@@ -64,18 +57,30 @@ const SignIn = ({userSignIn, user}) => {
           {errors.password && errorMessage(errors.password.type, 'password', 6, 40)}
           {serverError && <span className="form__error">Email or password is invalid.</span>}
         </div>
-        <Button type="submit" children={"Sign In"}/>
+        <Button type="submit">Sign In</Button>
         <div className="form__subtitle">
           Don’t have an account?
-          <Link to={'/sign-up'}>Sign Up.</Link>
+          <Link to='/sign-up'>Sign Up.</Link>
         </div>
       </form>
     </div>
   )
 }
 
-const mapStateToProps = ({user}) => ({user});
+const mapStateToProps = ({user, loading}) => ({user, loading});
 
 const mapDispatchToProps = {userSignIn}
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+
+SignIn.propTypes = {
+  userSignIn: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
+  loading: PropTypes.bool.isRequired
+}

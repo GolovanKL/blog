@@ -5,7 +5,8 @@ const initialState = {
   },
   articles: [],
   postsTotal: 0,
-  apiErrors: null
+  apiErrors: null,
+  loading: false
 }
 
 export default initialState;

@@ -1,12 +1,15 @@
 import initialState from "../initialState/initialState";
 import actionTypes from "./actionTypes";
 
-export const setUser = user => {
-  return {
+export const setLoading = () => ({
+  type: actionTypes.SET_LOADING,
+})
+
+
+export const setUser = user => ({
     type: actionTypes.SET_USER,
     payload: user
-  }
-};
+  });
 
 export const setApiErrors = errors => ({
   type: actionTypes.SET_ERRORS,

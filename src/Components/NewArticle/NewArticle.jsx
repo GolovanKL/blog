@@ -12,11 +12,8 @@ import './NewArticle.scss';
 import { makeNewArticle, editArticle } from "../../Reducer/api.actions";
 
 const NewArticle = ({article = null}) => {
-  NewArticle.propTypes = {
-    article: PropTypes.object.isRequired
-  }
 
-    const defaultValues = article ? {
+  const defaultValues = article ? {
     title: article.title,
     description: article.description,
     body: article.body,
@@ -36,12 +33,13 @@ const NewArticle = ({article = null}) => {
   });
 
   const watchFieldArray = watch("tag");
-  const controlledFields = fields.map((field, index) => {
-    return {
-      ...field,
-      ...watchFieldArray[index]
-    };
-  });
+  const controlledFields = fields.map((field, index) => (
+      {
+        ...field,
+        ...watchFieldArray[index]
+      }
+    )
+  );
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -106,30 +104,27 @@ const NewArticle = ({article = null}) => {
             <label htmlFor="">Tags:</label>
             {!controlledFields.length &&
             <button className="tags__add" onClick={() => append({})} type="button">Add tag</button>}
-            {controlledFields.map((field, index) => {
-              return (
-                <div key={field.id} className="tags__input">
-                  <Controller
-                    name={`tag.${index}`}
-                    control={control}
-                    rules={{required: false}}
-                    render={({field}) =>
-                      <FormInput {...field}
-                                 name={`tag.${index}.tagInput`}
-                                 placeholder="Tag"
-                      />
-                    }
-                  />
-                  <button className="button button__red" type="button" onClick={() => remove(index)}>Delete</button>
-                  {index === fields.length - 1 &&
-                  <button className="button tags__add" onClick={() => append({})} type="button">Add tag</button>}
-                </div>
+            {controlledFields.map((field, index) => (
+              <div key={field.id} className="tags__input">
+                <Controller
+                  name={`tag.${index}`}
+                  control={control}
+                  rules={{required: false}}
+                  render={({field}) =>
+                    <FormInput {...field}
+                               name={`tag.${index}.tagInput`}
+                               placeholder="Tag"
+                    />
+                  }
+                />
+                <button className="button button__red" type="button" onClick={() => remove(index)}>Delete</button>
+                {index === fields.length - 1 &&
+                <button className="button tags__add" onClick={() => append({})} type="button">Add tag</button>}
+              </div>
 
-              )
-            })
-            }
+            ))}
           </div>
-          <Button type="submit" children={"Send"}/>
+          <Button type="submit">Send</Button>
         </form>
       </div>
 
@@ -139,3 +134,16 @@ const NewArticle = ({article = null}) => {
 
 
 export default NewArticle;
+
+NewArticle.propTypes = {
+  article: PropTypes.shape({
+    title: PropTypes.string,
+    description: PropTypes.string,
+    body: PropTypes.string,
+    tag: PropTypes.arrayOf(PropTypes.string)
+  })
+}
+
+NewArticle.defaultProps ={
+  article: null
+}

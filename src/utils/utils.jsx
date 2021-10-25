@@ -16,3 +16,14 @@ export const errorMessage = (type, name, minLength, maxLength) => {
       return null
   }
 }
+
+const getToken = () => {
+  const user = JSON.parse(sessionStorage.getItem('user'));
+  return user ? user.token : null;
+}
+
+export const makeAuthHeader = () => ({
+  headers: {
+    "authorization": `Token ${getToken()}`
+  }
+})
