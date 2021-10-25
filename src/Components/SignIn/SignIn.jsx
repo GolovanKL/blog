@@ -3,8 +3,6 @@ import { Link, Redirect } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Spin } from 'antd';
-
 
 import { errorMessage } from '../../utils/utils'
 
@@ -12,7 +10,7 @@ import { userSignIn } from "../../Reducer/api.actions";
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 
-const SignIn = ({userSignIn, user, loading}) => {
+const SignIn = ({userSignIn, user}) => {
 
   const [serverError, setServerError] = useState(null);
 
@@ -30,7 +28,6 @@ const SignIn = ({userSignIn, user, loading}) => {
   return (
     <div className="signin form _block">
       <h2 className="form__title">Sign In</h2>
-      {loading ? <Spin size='small'/> : null }
       <form onSubmit={handleSubmit(onSubmit)} className="signin__form">
         <div className="controller">
           <Controller
@@ -67,7 +64,7 @@ const SignIn = ({userSignIn, user, loading}) => {
   )
 }
 
-const mapStateToProps = ({user, loading}) => ({user, loading});
+const mapStateToProps = ({user}) => ({user});
 
 const mapDispatchToProps = {userSignIn}
 
@@ -81,6 +78,5 @@ SignIn.propTypes = {
     bio: PropTypes.string,
     image: PropTypes.string,
     token: PropTypes.string,
-  }).isRequired,
-  loading: PropTypes.bool.isRequired
+  }).isRequired
 }

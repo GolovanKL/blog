@@ -1,20 +1,14 @@
 import axios from "axios";
-import { setArticles, setPostsTotal, setUser, setLoading } from "./store.actions";
+import { setArticles, setPostsTotal, setUser } from "./store.actions";
 import {makeAuthHeader} from "../utils/utils";
 
 const apiBase = 'https://jm-blog-project.herokuapp.com/api/';
 // apiBase = 'https://conduit-api-realworld.herokuapp.com/api/';
 // apiBase = 'https://conduit.productionready.io/api/';
 
-export const userSignIn = (email, password) => dispatch => {
-  dispatch(setLoading);
-  return axios.post(`${apiBase}users/login`, {user: {email, password}})
+export const userSignIn = (email, password) => dispatch => axios.post(`${apiBase}users/login`, {user: {email, password}})
     .then(res => res.data.user)
-    .then(user => {
-      dispatch(setUser(user));
-      dispatch(setLoading);
-    })
-}
+    .then(user => dispatch(setUser(user)))
 
 export const  userSignUp = (username, email, password) => dispatch => axios.post(`${apiBase}users`, {user: {username, email, password}})
     .then(res => res.data.user)

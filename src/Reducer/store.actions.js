@@ -1,11 +1,6 @@
 import initialState from "../initialState/initialState";
 import actionTypes from "./actionTypes";
 
-export const setLoading = () => ({
-  type: actionTypes.SET_LOADING,
-})
-
-
 export const setUser = user => ({
     type: actionTypes.SET_USER,
     payload: user

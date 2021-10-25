@@ -4,7 +4,6 @@ const actionTypes = {
   SET_ARTICLES: 'SET_ARTICLES',
   LOG_OUT: 'LOG_OUT',
   SET_TOTAL: 'SET_TOTAL',
-  SET_LOADING: 'SET_LOADING'
 }
 
 export default actionTypes;

@@ -45,9 +45,15 @@ const NewArticle = ({article = null}) => {
   const dispatch = useDispatch();
 
   const onSubmit = ({title, description, body, tag}) => {
-    if (article) dispatch(editArticle(article.slug, title, description, body, tag))
-    else dispatch(makeNewArticle(title, description, body, tag))
-    history.push('./');
+    if (article) {
+      dispatch(editArticle(article.slug, title, description, body, tag))
+        .then(() => history.push('./'))
+    }
+    else {
+      dispatch(makeNewArticle(title, description, body, tag))
+        .then(() => history.push('./'))
+    }
+
   }
 
   return (
