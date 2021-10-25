@@ -31,7 +31,7 @@ const SignIn = ({userSignIn, user}) => {
 
   return (
     <div className="signin form _block">
-      {loading ? <Spin size="small"/> : <h2 className="form__title">Sign In</h2>}
+      {loading ? <Spin size="large"/> : <h2 className="form__title">Sign In</h2>}
       <form onSubmit={handleSubmit(onSubmit)} className="signin__form">
         <div className="controller">
           <Controller

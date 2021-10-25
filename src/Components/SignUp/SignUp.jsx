@@ -34,7 +34,7 @@ const SignUp = ({dispatch, user}) => {
 
   return (
     <div className="signup form _block">
-      {loading ? <Spin size="small" /> : <h2 className="form__title">Create new account</h2>}
+      {loading ? <Spin size="large" /> : <h2 className="form__title">Create new account</h2>}
       <form onSubmit={handleSubmit(onSubmit)} className='signup__form'>
         <div className="controller">
           <Controller
