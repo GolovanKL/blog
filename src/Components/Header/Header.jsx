@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { logOut, setUser } from "../../Reducer/store.actions";
 import userAvatar from '../../assets/user.png';
@@ -9,6 +10,18 @@ import initialState from "../../initialState/initialState";
 import './Header.scss';
 
 const Header = ({user, logOut, history, setUser}) => {
+  Header.propTypes = {
+    user: PropTypes.shape({
+      email: PropTypes.string,
+      username: PropTypes.string,
+      bio: PropTypes.string,
+      image: PropTypes.string,
+      token: PropTypes.string,
+    }).isRequired,
+    logOut: PropTypes.func.isRequired,
+    setUser: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired
+  }
 
   if (!user.username) {
     user = JSON.parse(sessionStorage.getItem('user')) || initialState.user;

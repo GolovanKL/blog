@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './Button.scss'
 
@@ -12,3 +13,7 @@ function Button({children, ...props}) {
 }
 
 export default Button;
+
+Button.propTypes = {
+  children: PropTypes.string.isRequired
+}

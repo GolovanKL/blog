@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { errorMessage } from '../../utils/utils'
 
@@ -10,6 +11,17 @@ import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 
 const SignIn = ({userSignIn, user}) => {
+  SignIn.propTypes = {
+    user: PropTypes.shape({
+      email: PropTypes.string,
+      username: PropTypes.string,
+      bio: PropTypes.string,
+      image: PropTypes.string,
+      token: PropTypes.string,
+    }).isRequired,
+    userSignIn: PropTypes.func.isRequired,
+  }
+
   const [serverError, setServerError] = useState(null);
 
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
@@ -45,7 +57,8 @@ const SignIn = ({userSignIn, user}) => {
             control={control}
             rules={{required: "Enter your password", minLength: 6, maxLength: 40}}
             render={({field}) =>
-              <FormInput {...field} type="password" value={watch("password")} label="Password" error={errors.password || serverError}/>
+              <FormInput {...field} type="password" value={watch("password")} label="Password"
+                         error={errors.password || serverError}/>
             }
           />
           {errors.password && errorMessage(errors.password.type, 'password', 6, 40)}

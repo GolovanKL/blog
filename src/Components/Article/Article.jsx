@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Spin } from 'antd';
 import uniqid from "uniqid";
 import { connect } from "react-redux";
+import PropTypes from 'prop-types';
 
 import { format } from "date-fns";
 import ReactMarkdown from 'react-markdown';
@@ -13,11 +14,13 @@ import {getOneArticle, favoriteArticle, unFavoriteArticle} from "../../Reducer/a
 import heart from "../../assets/heart.svg";
 import favor from '../../assets/favor.png';
 
-import './Article.scss';
 import NewArticle from "../NewArticle/NewArticle";
 import ModalDelete from "../ModalDelete/ModalDelete";
 
+import './Article.scss';
+
 const Article = ({slug, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
+
   const [article, setArticle] = useState({});
   const [loading, setLoading] = useState(true);
   const [edit, setEdit] = useState(false);
@@ -111,3 +114,10 @@ const Article = ({slug, getOneArticle, favoriteArticle, unFavoriteArticle}) => {
 const mapDispatchToProps = {getOneArticle,favoriteArticle, unFavoriteArticle}
 
 export default connect(null, mapDispatchToProps)(Article);
+
+Article.propTypes = {
+  slug: PropTypes.string.isRequired,
+  getOneArticle: PropTypes.func.isRequired,
+  favoriteArticle: PropTypes.func.isRequired,
+  unFavoriteArticle: PropTypes.func.isRequired,
+};

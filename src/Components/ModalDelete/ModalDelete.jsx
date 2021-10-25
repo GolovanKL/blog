@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 import mark from '../../assets/warning.png';
 import arrow from '../../assets/arrow.png';
@@ -10,8 +11,13 @@ import {deleteArticle} from "../../Reducer/api.actions";
 
 
 const ModalDelete = ({slug, setIsDelete}) => {
+  ModalDelete.propTypes = {
+    slug: PropTypes.string.isRequired,
+    setIsDelete: PropTypes.func.isRequired
+  }
 
-  const history = useHistory();
+
+    const history = useHistory();
   const dispatch = useDispatch();
 
   const clickNo = () => setIsDelete(false);

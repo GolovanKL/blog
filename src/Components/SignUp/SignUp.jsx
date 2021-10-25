@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { withRouter, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { errorMessage } from '../../utils/utils'
 import { userSignUp } from "../../Reducer/api.actions";
@@ -13,7 +14,13 @@ import Button from "../Button/Button";
 import './SignUp.scss';
 
 const SignUp = ({dispatch, history, user: {username}}) => {
-  const [serverError, setServerError] = useState(false);
+  SignUp.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
+    username: PropTypes.string.isRequired
+  }
+
+    const [serverError, setServerError] = useState(false);
 
   const {register, control, handleSubmit, watch, formState: {errors}} = useForm();
 

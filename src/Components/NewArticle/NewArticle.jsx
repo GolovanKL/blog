@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from "react-redux";
+import PropTypes from 'prop-types';
 
 import Button from "../Button/Button";
 import FormInput from "../FormInput/FormInput";
@@ -11,8 +12,11 @@ import './NewArticle.scss';
 import { makeNewArticle, editArticle } from "../../Reducer/api.actions";
 
 const NewArticle = ({article = null}) => {
+  NewArticle.propTypes = {
+    article: PropTypes.object.isRequired
+  }
 
-  const defaultValues = article ? {
+    const defaultValues = article ? {
     title: article.title,
     description: article.description,
     body: article.body,

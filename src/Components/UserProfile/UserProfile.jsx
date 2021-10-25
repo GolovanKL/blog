@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 import { withRouter, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { errorMessage } from "../../utils/utils";
 import { setUser } from "../../Reducer/store.actions";
@@ -12,8 +13,15 @@ import Button from "../Button/Button";
 import ModalError from "../ModalError/ModalError";
 
 const UserProfile = ({history, editProfile, user: {username, email, image}}) => {
+  UserProfile.propTypes = {
+    history: PropTypes.object.isRequired,
+    editProfile: PropTypes.func.isRequired,
+    email: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+  }
 
-  const {control, handleSubmit, watch, formState: {errors}} = useForm({defaultValues: {username, email, image}});
+    const {control, handleSubmit, watch, formState: {errors}} = useForm({defaultValues: {username, email, image}});
   const [error, setError] = useState(false);
 
   const onSubmit = ({username, email, password, image}) => {

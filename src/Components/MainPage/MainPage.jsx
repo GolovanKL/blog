@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import uniqid from 'uniqid';
 import { Spin, Alert, Pagination } from 'antd';
+import PropTypes from 'prop-types';
 
 import {getAllArticles} from "../../Reducer/api.actions";
 
@@ -10,6 +11,18 @@ import Post from "../Post/Post";
 import './MainPage.css'
 
 function MainPage({articles, user, postsTotal, getAllArticles}) {
+  MainPage.propTypes = {
+    user: PropTypes.shape({
+      email: PropTypes.string,
+      username: PropTypes.string,
+      bio: PropTypes.string,
+      image: PropTypes.string,
+      token: PropTypes.string,
+    }).isRequired,
+    getAllArticles: PropTypes.func.isRequired,
+    articles: PropTypes.array.isRequired,
+    postsTotal: PropTypes.number.isRequired
+  }
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');

@@ -3,12 +3,17 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import uniqid from 'uniqid';
 import { format } from 'date-fns';
+
 import heart from '../../assets/heart.svg';
 import favor from '../../assets/favor.png';
 
 import './Post.scss'
 
 const Post = ({post, history}) => {
+  Post.propTypes = {
+    post: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  }
 
   const {title, author, description, createdAt, favoritesCount, tagList, slug, favorited} = post;
 
