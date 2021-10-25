@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { Controller, useForm } from "react-hook-form";
-import { useHistory ,Redirect, Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {Spin} from "antd";
 
 import { errorMessage } from '../../utils/utils'
 import { userSignUp } from "../../Reducer/api.actions";
@@ -14,15 +15,17 @@ import './SignUp.scss';
 
 const SignUp = ({dispatch, user}) => {
   const [serverError, setServerError] = useState(false);
-
-  const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const {register, control, handleSubmit, watch, formState: {errors}} = useForm();
 
   const onSubmit = ({username, email, password}) => {
+    setLoading(true);
     dispatch(userSignUp(username, email, password))
       .catch(err => setServerError(err.response.data.errors))
-      .then(() => history.push('/'))
+      .then(() => {
+        setLoading(false);
+      })
   }
 
   if (user.username) {
@@ -31,7 +34,7 @@ const SignUp = ({dispatch, user}) => {
 
   return (
     <div className="signup form _block">
-      <h2 className="form__title">Create new account</h2>
+      {loading ? <Spin size="small" /> : <h2 className="form__title">Create new account</h2>}
       <form onSubmit={handleSubmit(onSubmit)} className='signup__form'>
         <div className="controller">
           <Controller

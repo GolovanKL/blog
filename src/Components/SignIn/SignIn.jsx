@@ -3,22 +3,26 @@ import { Link, Redirect } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import {Spin} from "antd";
 import { errorMessage } from '../../utils/utils'
 
 import { userSignIn } from "../../Reducer/api.actions";
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
 
+
 const SignIn = ({userSignIn, user}) => {
 
   const [serverError, setServerError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const {control, handleSubmit, watch, formState: {errors}} = useForm();
 
   const onSubmit = ({email, password}) => {
+    setLoading(true);
     userSignIn(email, password)
       .catch(err => setServerError(err.response.data.errors))
+      .then(() => setLoading(false))
   }
 
   if (user.token) {
@@ -27,7 +31,7 @@ const SignIn = ({userSignIn, user}) => {
 
   return (
     <div className="signin form _block">
-      <h2 className="form__title">Sign In</h2>
+      {loading ? <Spin size="small"/> : <h2 className="form__title">Sign In</h2>}
       <form onSubmit={handleSubmit(onSubmit)} className="signin__form">
         <div className="controller">
           <Controller
