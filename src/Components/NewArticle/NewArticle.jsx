@@ -51,7 +51,7 @@ const NewArticle = ({article = null}) => {
   return (
     <div className="new-article _block">
       <div className="new-article_body">
-        <div className="new-article__title"><h5>Create new article</h5></div>
+        <div className="new-article__title"><h5>{article ? 'Edit Article' : 'Create new article'}</h5></div>
         <form onSubmit={handleSubmit(onSubmit)} className="new-article__form">
           <div className="controller">
             <Controller

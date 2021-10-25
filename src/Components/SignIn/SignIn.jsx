@@ -20,7 +20,6 @@ const SignIn = ({userSignIn, user}) => {
   }
 
   if (user.token) {
-    console.log(JSON.parse(sessionStorage.getItem('user')));
     return <Redirect to="/"/>
   }
 

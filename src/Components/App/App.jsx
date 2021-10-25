@@ -9,7 +9,6 @@ import SignUp from "../SignUp/SignUp";
 import NewArticle from "../NewArticle/NewArticle";
 import UserProfile from "../UserProfile/UserProfile";
 
-
 import './App.scss';
 
 function App() {
