@@ -2,9 +2,9 @@ import axios from "axios";
 import { setArticles, setPostsTotal, setUser } from "./store.actions";
 import {makeAuthHeader} from "../utils/utils";
 
-const apiBase = 'https://jm-blog-project.herokuapp.com/api/';
-// apiBase = 'https://conduit-api-realworld.herokuapp.com/api/';
-// apiBase = 'https://conduit.productionready.io/api/';
+// const apiBase = 'https://jm-blog-project.herokuapp.com/api/';
+// const apiBase = 'https://conduit-api-realworld.herokuapp.com/api/';
+const apiBase = 'https://conduit.productionready.io/api/';
 
 export const userSignIn = (email, password) => dispatch => axios.post(`${apiBase}users/login`, {user: {email, password}})
     .then(res => res.data.user)
