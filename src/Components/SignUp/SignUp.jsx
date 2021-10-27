@@ -51,7 +51,7 @@ const SignUp = ({dispatch, user}) => {
             }
           />
           {errors.username && errorMessage(errors.username.type, 'username', 3, 20)}
-          {serverError.username && <span className="form__error">Username has already been taken</span>}
+          {!errors.username && serverError.username && <span className="form__error">Username has already been taken</span>}
         </div>
         <div className="controller">
           <Controller
@@ -68,7 +68,7 @@ const SignUp = ({dispatch, user}) => {
             }
           />
           {errors.email && errorMessage(errors.email.type, 'Email')}
-          {serverError.email && <span className="form__error">Email has already been taken</span>}
+          {!errors.email && serverError.email && <span className="form__error">Email has already been taken</span>}
 
         </div>
         <div className="controller">
