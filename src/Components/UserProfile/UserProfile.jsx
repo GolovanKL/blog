@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 
@@ -11,18 +11,17 @@ import { editProfile } from '../../Reducer/api.actions';
 
 import FormInput from "../FormInput/FormInput";
 import Button from "../Button/Button";
-import ModalError from "../ModalError/ModalError";
 
 const UserProfile = ({editProfile, user}) => {
 
   const {username, email, image} = user;
   const {control, handleSubmit, watch, formState: {errors}} = useForm({defaultValues: {username, email, image}});
-  const [error, setError] = useState(false);
-  const history = useHistory();
+  const [serverError, setServerError] = useState(null);
 
   const onSubmit = ({username, email, password, image}) => {
+    setServerError(null);
     editProfile(username, email, password, image)
-      .then(() => history.push('/articles/'))
+      .catch(err => setServerError(err.response.data))
   }
 
   if (!username) {
@@ -31,7 +30,6 @@ const UserProfile = ({editProfile, user}) => {
 
   return (
     <div className="profile form _block">
-      {error && <ModalError error={error} setError={setError}/>}
       <h2 className="form__title">Edit profile</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="profile__form">
         <div className="controller">
@@ -60,11 +58,12 @@ const UserProfile = ({editProfile, user}) => {
               <FormInput {...field}
                          value={watch("email")}
                          label="Email"
-                         error={errors.email}
+                         error={errors.email || serverError}
               />
             }
           />
           {errors.email && errorMessage(errors.email.type, 'Email')}
+          {!errors.email && serverError === 'Unique constraint failed on the fields: (`email`)' && <span className="form__error">Email was already used.</span>}
         </div>
         <div className="controller">
           <Controller

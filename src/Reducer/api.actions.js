@@ -29,7 +29,6 @@ export const editProfile = (username, email, password, image) => dispatch => axi
       if (user) dispatch(setUser(user))
     })
     .then(() => dispatch(getAllArticles(1)))
-    .catch(err => console.dir(err))
 
 export const makeNewArticle = (title, description, body, tagList) => () => axios.post(`${apiBase}articles`,
     {article: {title, description, body, tagList: [...tagList]}}, makeAuthHeader())

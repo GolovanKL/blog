@@ -29,5 +29,7 @@ FormInput.defaultProps = {
 FormInput.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
-  error: PropTypes.string
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({})])
 }
