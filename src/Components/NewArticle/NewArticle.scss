@@ -2,13 +2,21 @@
   width: 938px;
   padding: 48px 32px;
 
-  .new-article__title h5 {
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 140%;
-    color: #262626;
-    text-align: center;
+
+  .new-article__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    h5 {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 140%;
+      color: #262626;
+      text-align: center;
+    }
   }
+
 
   textarea {
     width: 100%;

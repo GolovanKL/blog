@@ -32,7 +32,6 @@ export const editProfile = (username, email, password, image) => dispatch => axi
 
 export const makeNewArticle = (title, description, body, tagList) => () => axios.post(`${apiBase}articles`,
     {article: {title, description, body, tagList: [...tagList]}}, makeAuthHeader())
-    .catch(err => console.dir(err))
 
 export const getOneArticle = slug => () => axios(`${apiBase}articles/${slug}`);
 
@@ -41,7 +40,6 @@ export const deleteArticle = slug => () => axios.delete(`${apiBase}articles/${sl
 
 export const editArticle = (slug, title, description, body, tagList) => () => axios.put(`${apiBase}articles/${slug}/`,
     {slug, article: {title, description, body, tagList: [...tagList]}}, makeAuthHeader())
-    .catch(err => console.dir(err))
 
 export const favoriteArticle = slug => () => axios.post(`${apiBase}articles/${slug}/favorite`,null, makeAuthHeader())
     .catch(err => console.dir(err))
